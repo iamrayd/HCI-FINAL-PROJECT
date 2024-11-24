@@ -1,0 +1,182 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: rgb(255, 255, 255);
+  height: 1000px;
+  width: auto;
+  padding:20px;
+  padding-top: 3%;
+  position: relative;
+}
+
+.small-card-user-container {
+  position: relative;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 250px;
+  height: 45px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 10px 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  align-self: flex-end;
+}
+
+.user-avatar-small-card {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 15px;
+  background-color: #555;
+}
+
+.user-info-small-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  margin-left:10px;
+  margin-right: 60px;
+}
+
+.welcome-text-small-card {
+  margin: 0px;
+  font-size: 12px;
+  color: #000000;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.username-small-card {
+  margin: 0px;
+  padding: 0px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow-down {
+  align-self: center;
+}
+
+.scanner-container {
+  background-image: url("../assets/startscan.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-top: 90px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 750px;
+  max-width: 850px;
+  min-height: 380px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+  align-self: center;
+  border: 1px solid gray;
+}
+
+.scan-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  padding: 15px 50px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scan-button:hover {
+  background-color: #ffffff62;
+  color: white;
+  border-color: white;
+}
+
+.recent-scans-container {
+  margin: 0;
+  width: 100%;
+  max-width: 750px;
+  min-height: 380px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(204, 115, 115, 0.1);
+  border: 1px solid gray;
+  overflow-y: auto;
+  align-self: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.recent-scans-h3 {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  color: #071952;
+}
+
+.product-info-h3 {
+  padding: 0px 0px 0px 45px;
+  color: #071952;
+}
+
+
+.recent-scans {
+  display: table;
+  width: 100%; 
+  border-collapse: collapse;
+}
+
+.scan-row {
+  border-bottom: 1px solid gray;
+  display: table-row; 
+}
+
+.scan-item {
+  display: table-cell; 
+  font-size: 14px;
+  color: #333;
+  padding: 5px 0px 20px 45px;
+}
+
+
+.scan-row:last-child .scan-item {
+  border-bottom: 2px solid gray;
+}
+
+.recent-scans-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recent-scans-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.recent-scans-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

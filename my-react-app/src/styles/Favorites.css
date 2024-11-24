@@ -1,0 +1,89 @@
+.favorites {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-items: center;
+  height: 800px;
+  overflow: hidden;
+  padding: 20px;
+  padding-top: 3%;
+  background-color: #ffffff;
+  }
+  
+  .favorites-user-container {
+    position: relative;
+    margin-top: 80px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    height: auto;
+    max-height: 70vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .saved-products-title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    flex-grow: 1;
+  }
+  
+  .product-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-name {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .star-icon {
+    font-size: 20px;
+    color: gold;
+    cursor: pointer;
+  }
+  
+  .star-icon:hover {
+    color: #cfcfcf;
+  }
+  
+  /* Add More Button Styling */
+  .add-more-button {
+    background-color: #e0e0e0;
+    color: black; 
+    padding: 10px 20px; 
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    align-self: flex-end;
+  }
+  
+  .add-more-button:hover {
+    border: 2px solid #000000;
+    background-color: #ffffff;
+  }
+  

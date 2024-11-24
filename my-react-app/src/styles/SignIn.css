@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&display=swap');
+
+.sign-in-container {
+  left: 0;
+  width: 45%;
+  z-index: 2;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
+}
+
+.signin-btn {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  height: 45px;
+  width: 52%;
+  transform: translateX(3%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+
+}
+
+.signin-btn:hover {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.signin-btn:active {
+  transform: scale(0.95);
+}
+
+.signin-btn:focus {
+  outline: none;
+}
+
+
+.signin-form {
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 33px;
+  height: 100%;
+  text-align: center;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.signin-form h1 {
+  color: black;
+  font-size: 30px;
+}
+
+.back-button {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  align-self: flex-start;
+  transform: translateX(-30%);
+  margin-top: 30px;
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: black;
+}
+
+.login-input {
+  width: 85%;
+  padding: 10px 12px 10px 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  font-family: 'Geologica', sans-serif;
+  height: 25px;
+  color: black;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  color: #888888;
+  cursor: pointer;
+}
+
+.login-input:focus {
+  outline: none;
+  color: black
+}
+
+.additional-options {
+  color: black;
+  margin-top: 10px;
+}
+
+.forgot-password {
+  color: black;
+  margin-left: 30px;
+}
+
+.divider {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 20px;
+  color: black;
+}
+
+.signup-prompt {
+  text-align: center;
+  font-size: 14px;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .signin-input {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signin-input {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}

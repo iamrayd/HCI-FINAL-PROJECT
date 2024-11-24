@@ -1,0 +1,138 @@
+/* Sidebar styles */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&display=swap');
+
+.sidebar {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px; /* Prevent overlap with the logout button */
+  overflow: hidden;
+}
+
+.logo-container-sidebar {
+  display: flex;
+  align-items: center; /* Vertically center the logo and website name */
+  margin-top: 20px;
+  margin-bottom: 30px; /* Space between the logo and the nav items */
+}
+
+.logo-img {
+  width: 40px; /* Adjust the logo size */
+  height: auto;
+  margin-right: 10px; /* Space between the logo and the website name */
+}
+
+.website-name {
+  font-size: 19px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0; /* Remove default margin */
+
+}
+
+/* General link and icon styles */
+.sidebar ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.sidebar li {
+  margin-top: 20px;
+}
+
+.sidebar a {
+  display: block;
+  align-items: center;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  transition: all 0.3s ease;
+}
+
+.sidebar .sidebar-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 20px; /* Icon size */
+  color: rgb(0, 0, 0); /* Default color for the icon */
+}
+
+/* Hover effect for links */
+.sidebar a:hover {
+  color: #007BFF; /* Text color on hover */
+}
+
+.sidebar a:hover .sidebar-icon {
+  color: #007BFF; /* Icon color on hover */
+}
+
+/* Active link styling */
+.active-link {
+  color: #007BFF; /* Active link text color */
+  font-weight: bold; /* Optional: Make text bold */
+}
+
+.active-link .sidebar-icon {
+  color: #000000; /* Active link icon color */
+}
+
+/* Prevent hover effect when the link is active */
+.active-link:hover {
+  color: #007BFF !important; /* Prevent color change on hover for active link */
+}
+
+.active-link .sidebar-icon:hover {
+  color: #007BFF !important; /* Prevent icon color change on hover for active link */
+}
+
+/* Optional: Style for the active link to have a background color */
+.active-link {
+  background-color: #75757537; /* Light background color for the active link */
+  border-radius: 5px; /* Optional: Rounded corners */
+}
+
+/* Log Out Button Styling */
+.logout-container {
+  position: relative; 
+  bottom: 20px; /* Distance from the bottom */
+  width: auto; /* Make the button span the full width of the sidebar */
+  padding: 0px 0; /* Add some padding around the button */
+  text-align: center; /* Center the button */
+  margin-top: 135px;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 230px; /* Make the button a bit smaller */
+  background-color: #ffffff; /* Red background for the logout button */
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+.logout-button .sidebar-icon {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+/* Optional mobile responsiveness */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60%;
+  }
+  .main-content {
+    margin-left: 60%;
+  }
+}

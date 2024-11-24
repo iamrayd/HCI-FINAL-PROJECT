@@ -1,0 +1,115 @@
+
+.dietary-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px; 
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.dietary-profile {
+  margin-top: 100px;
+  height: 60%;
+  width: 70%;
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000000; 
+}
+
+.profile-circle {
+  position: absolute;
+  top: -75px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px; 
+  height: 150px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 2px solid #000000; 
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar {
+  width: 220px; 
+  height: 150px; 
+  object-fit: cover;
+}
+
+.user-info {
+  text-align: center;
+  margin-top: 60px; 
+  padding: 0 50px; 
+
+}
+
+.user-info .username,
+.user-info .email {
+  margin: 5px 0;
+  display: block; 
+}
+
+.username {
+  font-weight: bold;
+  padding-bottom: 5px;
+  color: black;
+  font-size: 25px;
+}
+
+.email {
+  font-size: 19px;
+  color: #666;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd; 
+}
+
+.dietary-allergies {
+  margin-top: 50px; 
+  padding: 10px;
+  max-height: 200px; 
+  overflow-y: auto;
+  border: 3px solid rgba(128, 128, 128, .5);
+  border-radius: 20px;
+  width: 660px;
+  align-self: center;
+  box-shadow: 0 6px 2px rgba(0, 0, 0, 0.5);
+}
+
+.dietary-allergies h4 {
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center; 
+  color: black;
+}
+
+.dietary-allergies h4 svg {
+  font-size: 20px; 
+}
+
+.allergies-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.allergies-list span {
+  background-color: #f0f0f0; 
+  padding: 8px 16px; 
+  border-radius: 20px; 
+  border: 1px solid #ddd; 
+  font-size: 14px;
+  color: #333; 
+}
+

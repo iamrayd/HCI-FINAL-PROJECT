@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+.scan-history {
+    background-color: #ffffff;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;   
+    padding: 20px;
+    padding-top: 3%;  
+}
+
+.scan-history-container {
+    border: none;
+    width: 90%;
+    height: 80%;
+    background-color: #ffffff;
+    padding: 20px;
+    align-self: center;
+    position: relative;
+}
+
+.scan-history-container h2 {
+    color: rgba(73, 69, 79, 0.8)
+}
+
+.scan-history-categories {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+/* Common styles for the buttons */
+.category-btn {
+    margin-right: 10px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid rgb(94, 94, 94, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 10px 30px;
+}
+
+.category-btn:hover {
+    background-color: #dcdcdc;
+    border-color: #dcdcdc;
+}
+
+.category-btn.active {
+    background-color: #dcdcdc; /* Keeps the button in hover state */
+    font-weight: bold;  /* Optional: Add bold for active button */
+    border-color: #dcdcdc;
+}
+
+
+.all-history-scan-records-container {
+    max-height: 600px; 
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background-color: #ffffff;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 900px;
+}
+
+.table-header {
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+    color: #49454FE5;
+}
+
+.table-header-item {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-family: 'Geologica', sans-serif;
+}
+
+.table-row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.table-item {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Outfit', sans-serif;
+    color: black;
+}
+
+.table-item-stats {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Outfit', sans-serif;
+    color: black;
+}
+
+.table-item-bold {
+    font-weight: bold;
+    font-size: 13px;
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+    color: black;
+}
+
+.table-item-bold:hover {
+    color: rgb(3, 86, 134);
+}
+
+.allergy-detected {
+    background-color: rgba(255, 167, 141, 0.5);
+    color: black;
+    cursor: pointer;
+}
+
+.table-row:not(.allergy-detected):hover {
+    background-color: white;
+    cursor: pointer;
+    color: black;
+}
+
+.safe {
+    color: rgba(14, 173, 105, 1);
+}
+
+.table-item-stats:not(.safe) {
+    color: rgba(205, 60, 62, 1);
+}
