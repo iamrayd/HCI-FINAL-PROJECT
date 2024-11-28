@@ -16,13 +16,20 @@ import yt from '../assets/yt.png';
 import fb from '../assets/fb.png';
 import twitter from '../assets/twitter.png';
 import ig from '../assets/ig.png';
-import ann from '../assets/wigmore.jpg'
-import dostlogo from '../assets/dostlogo.png'
-import shopsmart from '../assets/shop-smart-background.jfif'
+import ann from '../assets/wigmore.jpg';
+import dostlogo from '../assets/dostlogo.png';
+import shopsmart from '../assets/shop-smart-background.jfif';
+import { FaYoutube, FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 const LandingPage = () => {
   const navigate = useNavigate(); // Ensure this is defined
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [isSolutionsHovered, setIsSolutionsHovered] = useState(false); // Track hover state
+  const [isWhoWeServeHovered, setIsWhoWeServeHovered] = useState(false); // Track Who We Serve hover state
+  const [isResourcesHovered, setIsResourcesHovered] = useState(false); // Track Resources hover state
+  const [isAboutUsHovered, setIsAboutUsHovered] = useState(false); // Track About Us hover state
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -45,7 +52,7 @@ const LandingPage = () => {
 
     console.log("LandingPage is rendering...");
   return (
-    <div>
+    <div className="landing-page">
       <nav className="navbar">
         <div className="logo-container">
           <img src={logo} alt="Logo" className="logo" />
@@ -57,10 +64,115 @@ const LandingPage = () => {
           <span className="bar"></span>
         </div>
         <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-          <li><a href="#solutions">Solutions</a></li>
-          <li><a href="#who-we-serve">Who We Serve</a></li>
-          <li><a href="#resources">Resources</a></li>
-          <li><a href="#about-us">About Us</a></li>
+        <li 
+            className="nav-item"
+            onMouseEnter={() => setIsSolutionsHovered(true)} 
+            onMouseLeave={() => setIsSolutionsHovered(false)}
+          >
+            <a href="#solutions">Solutions</a>
+            {isSolutionsHovered && (
+              <div className="solutions-dropdown">
+                <div className="column">
+                  <h3>Our Platform</h3>
+                  <p>Barcode Health empowers users to make informed food choices by providing them with easy access to product allergen information and nutritional details through barcode scanning.</p>
+                </div>
+                <div className="column">
+                  <h3>Barcode Health Solutions</h3>
+                  <ul className="health-solution-text">
+                    <li><strong>Barcode Scanning<br/></strong> Real-time scanning of product barcodes to retrieve detailed nutritional and allergen information.</li>
+                    <li><strong>Allergen Detection<br/></strong> Highlights products that contain user-flagged allergens, with customizable alerts based on individual profiles.</li>
+                    <li><strong>Nutritional Breakdown<br/></strong> Displays comprehensive nutritional data, including calories, macronutrients, vitamins, and minerals, for each scanned product.</li>
+                  </ul>
+                </div>
+                <div className="column">
+                  <h3>Healthy Shopping Tips</h3>
+                  <p>Discover smart tips to make healthier choices while shopping. Learn how to read nutrition labels, compare products, and pick foods that align with your dietary goals.</p>
+                </div>
+              </div>
+            )}
+          </li>
+
+          {/* Who We Serve Dropdown */}
+          <li 
+            className="nav-item"
+            onMouseEnter={() => setIsWhoWeServeHovered(true)} 
+            onMouseLeave={() => setIsWhoWeServeHovered(false)}
+          >
+            <a href="#who-we-serve">Who We Serve</a>
+            {isWhoWeServeHovered && (
+              <div className="who-we-serve-dropdown">
+                <div className="column">
+                  <h3>Who We Serve</h3>
+                  <p>We provide tailored information for individuals with specific dietary needs and health goals.</p>
+                </div>
+                <div className="column">
+                  <h3>People with Allergies</h3>
+                  <p>Individuals with common or severe allergies to foods such as nuts, gluten, dairy, etc., looking to avoid harmful ingredients.</p>
+                </div>
+                <div className="column">
+                  <h3>Health-Conscious Consumers</h3>
+                  <p>Users who actively monitor their calorie intake, nutritional values, or those on special diets (e.g., keto, vegan, or low-carb diets).</p>
+                </div>
+                <div className="column">
+                  <h3>Parents and Caregivers</h3>
+                  <p>Those purchasing food for family members with allergies, such as parents of children with food sensitivities.</p>
+                </div>
+                <div className="column">
+                  <h3>Fitness Enthusiasts</h3>
+                  <p>Individuals focused on tracking their macros and overall nutrition for performance and fitness goals.</p>
+                </div>
+              </div>
+            )}
+          </li>
+
+          {/* Resources Dropdown */}
+          <li 
+            className="nav-item"
+            onMouseEnter={() => setIsResourcesHovered(true)} 
+            onMouseLeave={() => setIsResourcesHovered(false)}
+          >
+            <a href="#resources">Resources</a>
+            {isResourcesHovered && (
+              <div className="resources-dropdown">
+                <div className="column">
+                  <h3>Case Studies</h3>
+                  <p>Case studies explore the impact of diet awareness on individuals' health, focusing on how increased nutritional knowledge influences food choices, eating habits, and long-term well-being. They also highlight the importance of allergy awareness in dietary planning, examining how individuals with food allergies manage restrictions to avoid triggers.</p>
+                </div>
+              </div>
+            )}
+          </li>
+
+          {/* About Us Dropdown */}
+          <li
+            className="nav-item"
+            onMouseEnter={() => setIsAboutUsHovered(true)}
+            onMouseLeave={() => setIsAboutUsHovered(false)}
+          >
+            <a href="#about-us">About Us</a>
+            {isAboutUsHovered && (
+              <div className="about-us-dropdown">
+                <div className="column">
+                  <h3>About Us</h3>
+                  <h2>The People Behind the Vision</h2>
+                  <p>
+                    The dedicated individuals behind Barcode Health, with a mission and values pushing forward. It showcases their diverse backgrounds, expertise, and passions, illustrating how each member contributes to our shared vision. The team is committed to making a meaningful impact in the community and beyond.
+                  </p>
+                </div>
+                <div className="column">
+                  <h3>Join Us</h3>
+                  <p>Contact Us</p>
+                  <p>Interested in joining our mission? Reach out to us for more details about job opportunities, collaborations, and more.</p>
+                  {/* Social Media Icons */}
+                  <div className="social-icons">
+                    <FaYoutube className="social-icon" color="black"/>
+                    <FaFacebookF className="social-icon" color="black"/>
+                    <FaTwitter className="social-icon" color="black"/>
+                    <FaInstagram className="social-icon" color="black"/>
+                  </div>
+                </div>
+              </div>
+            )}
+          </li>
         </ul>
         <div className="nav-buttons">
         <button className="signin-button" onClick={handleSignInClick}>Sign In</button>
@@ -92,6 +204,7 @@ const LandingPage = () => {
       </div>
 
       <div className="know-your-food-container">
+        <div className='know-form'>
         <div className="know-your-food-image">
           <img src={know} alt="Know-your-food"></img>
         </div>
@@ -101,9 +214,11 @@ const LandingPage = () => {
           BarcodeHealth helps users to make<br/> 
           smarter food choices by scanning<br/>
           barcodes for instant nutritional info,<br/>
-           allergen detection, ingredient transparency, and personalized insights<br/> 
+           allergen detection, ingredient<br/> 
+           transparency, and personalized insights<br/> 
            based on dietary needs.
           </p>
+        </div>
         </div>
       </div> 
 
@@ -119,8 +234,9 @@ const LandingPage = () => {
                   <button className= "features-button">features</button>
                 <h3>Barcode</h3>
                 <h1></h1>
-                <p>Real-time scanning of product barcodes to retrieve 
-                  detailed nutritional and allergen information.
+                <p>Real-time scanning of product barcodes to<br/>
+                  retrieve detailed nutritional and allergen <br/>
+                  information.
                 </p>
               </div>
             </li>
@@ -130,8 +246,9 @@ const LandingPage = () => {
                 <button className= "features-button">features</button>
                 <h3>Dietary Profile</h3>
                 <h1></h1>
-                <p>Customize your dietary needs and restrictions for personalized 
-                  product recommendations and allergen alerts.
+                <p>Customize your dietary needs and restrictions<br/>
+                   for personalized product recommendations and<br/>
+                   allergen alerts.
                 </p>
               </div>
             </li>
@@ -141,7 +258,7 @@ const LandingPage = () => {
                 <button className= "features-button">features</button>
                 <h3>Healthy Shopping Tips</h3>
                 <h1></h1>
-                <p>Essential Tips for Navigating Food Allergies and 
+                <p>Essential Tips for Navigating Food Allergies and<br/>
                   Making Healthy Choices.
                 </p>
               </div>
@@ -151,6 +268,7 @@ const LandingPage = () => {
       </div>
 
       <div className="how-scan-container">
+        <div className='how-scan-form'>
         <div className="how-scan-text">
           <h2>How the Scanner works</h2>
           <div>
@@ -186,17 +304,18 @@ const LandingPage = () => {
         <div className="how-scan-image">
           <img src={howScan} alt="image" />
         </div>
+        </div>
       </div>
 
       <div className="healty-shopping-tips-container">
         <div className="healty-shopping-tips-text">
           <h2>Healthy shopping tips from reputable sources</h2>
           <p>
-            "The food you eat can be either the safest and most powerful form of
-            medicine or the slowest form of poison" - Ann Wigmore
+            "The food you eat can be either the safest and most powerful<br/>
+            form of medicine or the slowest form of poison" - Ann Wigmore
           </p>
         </div>
-        <div>
+        <div className="healthy-tips-boxes">
           <ul className="form-info-healty-tips">
             <li>
               <div className="form-info-healty-tips-left">
@@ -232,18 +351,17 @@ const LandingPage = () => {
       </div>
 
       <div className="shop-smart-container">
-      <div className="shopsmart-image-container">
-              <img src={shopsmart} alt="ShopSmart" />
-          </div>
-      <div className="shop-smart-text">
-          <h2>Shop Smart Now</h2>
-          <button className="get-started-button" 
-            onClick={handleGetStartedClick}>
-            Get Started
-          </button>
+        <div className="shopsmart-image-container">
+                <img src={shopsmart} alt="ShopSmart" />
+            </div>
+        <div className="shop-smart-text">
+            <h2>Shop Smart Now</h2>
+            <button className="get-started-button" 
+              onClick={handleGetStartedClick}>
+              Get Started
+            </button>
+        </div>
       </div>
-  </div>
-
 
       <div className="other-container">
         <ul className="infos">

@@ -1,41 +1,26 @@
-  .scan-section {
-    flex-direction: column;
-    display: flex;
-    align-items: flex-end;
-    height: 600px;
-    width: auto;
-    padding: 20px;
-    padding-top: 3%;
-    position: relative;
-  }
-  
-  .scan-container {
-    align-self: center;
-    margin-top: 50px;
-    width: 600px;
-  }
-  
-  .scan-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 16px;
-    color: black;
-    justify-self: center;
-  }
+.scan-section {
+  flex-direction: column;
+  display: flex;
+  align-items: flex-end;
+  height: 600px;
+  width: auto;
+  padding: 20px;
+  padding-top: 3%;
+  position: relative;
+}
 
-  .scan-title span {
-    margin-left: 20px
-  }
-  
-  .scan-area {
-    border: 2px solid black;
-    border-radius: 8px;
-    width: 100%;
-    height: 350px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
-  
+.scan-container {
+  align-self: center;
+  width: 600px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.scan-title {
+  color: black;
+  justify-self: center;
+  align-self: center;
+  padding: 0;
+  font-size: 20px;
+  margin-top: 20px
+}

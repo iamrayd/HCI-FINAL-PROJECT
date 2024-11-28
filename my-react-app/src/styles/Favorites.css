@@ -8,6 +8,7 @@
   padding: 20px;
   padding-top: 3%;
   background-color: #ffffff;
+  width: auto
   }
   
   .favorites-user-container {
@@ -15,8 +16,8 @@
     margin-top: 80px;
     background-color: #fff;
     border-radius: 10px;
-    border: 2px solid black;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 0px solid rgba(128, 128, 128, .5);
+    box-shadow: 1px 6px 5px 5px rgba(121, 118, 118, 0.6); 
     padding: 20px;
     width: 80%;
     max-width: 1000px;

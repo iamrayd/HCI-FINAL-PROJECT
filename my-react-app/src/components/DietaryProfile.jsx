@@ -1,79 +1,85 @@
-import React from 'react';
-import { FaExclamationTriangle } from 'react-icons/fa'; // Import the warning icon
-import '../styles/DietaryProfile.css';
-import dadi from '../assets/dadi.jpg';
+import React, { useState } from 'react';
+import { FaExclamationTriangle, FaTimes } from 'react-icons/fa'; // Import warning and X icons
+import '../styles/DietaryProfile.css'; // Link to the CSS file
+import dadi from '../assets/dadi.jpg'; // Profile image
 
 const DietaryProfile = () => {
-    return (
-        <div className="dietary-profile-container">
-            <div className="dietary-profile">
-                {/* Top Circle Container for Profile Avatar */}
-                <div className="profile-circle">
-                    <img 
-                        src= {dadi}
-                        alt="Profile Avatar" 
-                        className="profile-avatar" 
-                    />
-                </div>
+  const [allergies, setAllergies] = useState([
+    'Peanuts', 'Gluten', 'Shellfish', 'Lactose', 'Eggs', 'Wheat',
+    'Shellfish', 'Lactose', 'Eggs', 'Wheat', 'Peanuts', 'Gluten',
+    'Shellfish', 'Lactose', 'Eggs', 'Wheat'
+  ]);
 
-                {/* Username and Email below the circle */}
-                <div className="user-info">
-                    <h2 className="username">John Doe</h2>
-                    <p className="email">johndoe@example.com</p>
-                </div>
+  const [formVisible, setFormVisible] = useState(false); // Form visibility
+  const [selectedAllergy, setSelectedAllergy] = useState(null); // Selected allergy
+  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
 
-                {/* Dietary Profile Allergies Container (positioned at the bottom) */}
-                <div className="dietary-allergies">
-                    <h4>
-                        <FaExclamationTriangle style={{ marginRight: '8px', color: '#f39c12' }} />
-                        Allergies
-                    </h4>
-                    <div className="allergies-list">
-                        <span>Peanuts</span>
-                        <span>Gluten</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Peanuts</span>
-                        <span>Gluten</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Peanuts</span>
-                        <span>Gluten</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Peanuts</span>
-                        <span>Gluten</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                        <span>Peanuts</span>
-                        <span>Gluten</span>
-                        <span>Shellfish</span>
-                        <span>Lactose</span>
-                        <span>Eggs</span>
-                        <span>Wheat</span>
-                    </div>
-                </div>
+  const handleRemoveClick = (allergy) => {
+    setFormVisible(true);
+    setSelectedAllergy(allergy);
+  };
 
-              
-            </div>
+  const handleRemoveConfirmed = () => {
+    setAllergies(allergies.filter((item) => item !== selectedAllergy));
+    setFormVisible(false);
+    setSelectedAllergy(null);
+  };
+
+  return (
+    <div className="dietary-profile-container">
+      <div className="dietary-profile">
+        {/* Profile Section */}
+        <div className="profile-circle">
+          <img src={dadi} alt="Profile Avatar" className="profile-avatar" />
         </div>
-    );
+
+        <div className="user-info">
+          <h2 className="username">John Doe</h2>
+          <p className="email">johndoe@example.com</p>
+        </div>
+
+        {/* Allergies List */}
+        <div className="dietary-allergies">
+          <div className="header-edit-group">
+            <h4 className="allergies-header">
+              <FaExclamationTriangle className="icon-warning" />
+              Allergies
+            </h4>
+            <button className="edit-button" onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? 'Done' : 'Edit'}
+            </button> 
+          </div>
+          <div className="allergies-list">
+            {allergies.map((allergy, index) => (
+              <div key={index} className="allergy-item">
+                <span className="allergy-name">{allergy}</span>
+                {isEditing && (
+                  <button className="remove-button" onClick={() => handleRemoveClick(allergy)}>
+                    <FaTimes />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Confirmation Form */}
+      {formVisible && (
+        <div className='confirm-back'>
+          <div className="confirmation-form">
+            <h3>Remove Allergy</h3>
+            <p>Are you sure you want to remove "{selectedAllergy}"?</p>
+            <button className="confirm-button" onClick={handleRemoveConfirmed}>
+              Yes
+            </button>
+            <button className="cancel-button" onClick={() => setFormVisible(false)}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default DietaryProfile;

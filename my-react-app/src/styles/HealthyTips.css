@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: flex-end;
     align-items: center;
-    height: 1000px;
+    height: 800px;
     width: auto;
     overflow: hidden;
     padding: 20px;
@@ -19,7 +19,7 @@
     background-color: #fff;
     padding-left: 50px;
     padding-right: 50px;
-    padding-top: 30px;
+    padding-top: 0px;
     padding-bottom: 40px;
     border-radius: 10px;
     /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
@@ -31,7 +31,7 @@
 /* Left Arrow (Previous) */
 .arrow-left {
     position: absolute;
-    top: 650px;
+    top: 600px;
     left: 5%;
     transform: translateY(-10%);
     font-size: 30px;
@@ -45,7 +45,7 @@
 /* Right Arrow (Next) */
 .arrow-right {
     position: absolute;
-    top: 650px;
+    top: 600px;
     right: 5%;
     transform: translateY(-10%);
     font-size: 30px;
@@ -149,6 +149,7 @@
     padding: 20px; 
     box-sizing: border-box;
     margin-top: 20px; 
+    height: 520px;
 }
 
 .author-image {
@@ -168,6 +169,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%; 
+    position: relative;
 }
 
 .author-name {
@@ -187,7 +189,7 @@
 .author-description {
     font-size: 15px;
     color: #fff;
-    margin-top: 10px;
+    margin-top: 10px;  
 }
 
 .author-bio p {

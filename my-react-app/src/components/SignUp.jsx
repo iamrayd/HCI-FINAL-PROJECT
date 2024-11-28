@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 function SignUp() {
   const navigate = useNavigate();
 
+  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);
 
@@ -40,9 +41,26 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Form submission logic here
-    console.log(formData);
-  };
+    // Validation logic
+    const newErrors = {};
+    if (!formData.firstName) newErrors.firstName = "First name is required.";
+    if (!formData.lastName) newErrors.lastName = "Last name is required.";
+    if (!formData.username) newErrors.username = "Username is required.";
+    if (!formData.email) newErrors.email = "Email is required.";
+    if (!formData.password) newErrors.password = "Password is required.";
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Set errors if any
+      return; // Stop form submission
+    }
+  
+    setErrors({}); // Clear errors if form is valid
+    openModal(); // Open the allergies modal
+    console.log(newErrors); // Add this inside handleSubmit to see if errors are detected.
+  };  
 
   const openModal = () => {
     if (formData.firstName && formData.lastName && formData.username && formData.email && formData.password && formData.confirmPassword) {
@@ -58,6 +76,7 @@ function SignUp() {
     console.log("Selected Allergies:", allergies);
     setSelectedAllergies(allergies); // Save selected allergies
     closeModal(); // Close modal
+    navigate('/home'); // Navigate to home after saving
   };
 
   return (
@@ -80,6 +99,7 @@ function SignUp() {
               required
             />
           </div>
+          {errors.firstName && <span className="error-message">{errors.firstName}</span>}
           <div className="signup-input-container">
             <BiMaleFemale className="input-icon" color="black"/>
             <select
@@ -94,6 +114,7 @@ function SignUp() {
               <option value="other">Other</option>
             </select>
           </div>
+          {errors.gender && <span className="error-message">{errors.gender}</span>}
         </div>
         <div className="form-row">
           <div className="signup-input-container">
@@ -132,6 +153,7 @@ function SignUp() {
               required
             />
           </div>
+          {errors.lastName && <span className="error-message">{errors.lastName}</span>}
           <div className="signup-input-container">
             <FaLock className="input-icon" color="black"/>
             <input
@@ -147,6 +169,7 @@ function SignUp() {
               {showPassword ? <FiEye className="password-toggle-icon2" color="black"/> : <FiEyeOff className="password-toggle-icon2" color="black"/>}
             </span>
           </div>
+          {errors.password && <span className="error-message-right">{errors.password}</span>}
         </div>
         <div className="form-row">
           <div className="signup-input-container">
@@ -161,6 +184,7 @@ function SignUp() {
               required
             />
           </div>
+          {errors.email && <span className="error-message">{errors.email}</span>}
           <div className="signup-input-container">
             <FaLock className="input-icon" color="black"/>
             <input
@@ -176,6 +200,7 @@ function SignUp() {
               {showConPassword ? <FiEye className="password-toggle-icon2" color="black"/> : <FiEyeOff className="password-toggle-icon2" color="black"/>}
             </span>
           </div>
+          {errors.confirmPassword && <span className="error-message-right">{errors.confirmPassword}</span>}
         </div>
 
          {/* Display selected allergies */}
@@ -190,7 +215,7 @@ function SignUp() {
           </div>
         )}
 
-        <button type="submit" className="signup-btn2" onClick={openModal}>
+        <button type="submit" className="signup-btn2" onClick={handleSubmit}>
           Sign Up
         </button>
         <div className="signup-divider">OR</div>

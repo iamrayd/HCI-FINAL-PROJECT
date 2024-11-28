@@ -3,12 +3,12 @@
 
 .scan-history {
     background-color: #ffffff;
-    height: 1000px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: flex-end;   
     padding: 20px;
-    padding-top: 3%;  
+    padding-top: 3%; 
 }
 
 .scan-history-container {
@@ -55,7 +55,7 @@
 
 
 .all-history-scan-records-container {
-    max-height: 600px; 
+    max-height: 500px; 
     overflow-y: auto;
     border: 1px solid #ccc;
     margin-top: 10px;
@@ -84,6 +84,7 @@
 .table-row {
     display: flex;
     margin-bottom: 10px;
+    align-items: center;
 }
 
 .table-item {
@@ -136,4 +137,19 @@
 
 .table-item-stats:not(.safe) {
     color: rgba(205, 60, 62, 1);
+}
+
+.view-info-btn {
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    color: black
+}
+
+.view-info-btn:hover {
+    font-weight: lighter;
+}
+
+.view-info-btn:focus {
+    outline: none;
 }

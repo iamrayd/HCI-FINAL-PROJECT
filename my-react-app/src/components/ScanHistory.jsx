@@ -172,12 +172,17 @@ const ScanHistory = () => {
         setActiveCategory(category); // Set the clicked button as active
     };
 
+    // Function to handle the "View Info" click and navigate to Barcode component
+    const handleViewInfoClick = (barcode) => {
+        navigate(`/barcode/${barcode}`);  // Navigate to the Barcode component with the barcode
+    };
+
     return (
         <div className="scan-history">
             {/* Small Card User Container */}
             <div className="small-card-user-container" onClick={handleCardClick}>
                 <img
-                    src={dadi} // Placeholder image, replace with actual user image
+                    src={dadi}
                     alt="User Avatar"
                     className="user-avatar-small-card"
                 />
@@ -233,7 +238,15 @@ const ScanHistory = () => {
                             <div className="table-item">{record.barcode}</div>
                             <div className="table-item">{record.date}</div>
                             <div className="table-item">{record.product}</div>
-                            <div className="table-item-bold">{record.productInfo}</div>
+                            <div className="table-item-bold">
+                                {/* Wrap the "View Info" text in a clickable button */}
+                                <button
+                                onClick={() => handleViewInfoClick(record.barcode)}
+                                className="view-info-btn"
+                                >
+                                {record.productInfo}
+                                </button>
+                            </div>
                             <div className="table-item">{record.price}</div>
                             <div key={index} className={`table-item-stats ${record.isAllergy===false ? 'safe' : ''}`}>{record.status}</div>
                         </div>

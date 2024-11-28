@@ -52,7 +52,7 @@ const App = () => {
           <>
             <Route path="/home" element={<Layout><Home /></Layout>} />
             <Route path="/scanner" element={<Layout><Scanner /></Layout>} />
-            <Route path="/barcode" element={<Layout><Barcode/></Layout>} />
+            <Route path="/barcode/:barcode" element={<Layout><Barcode/></Layout>} />
             <Route path="/dietaryprofile" element={<Layout><DietaryProfile /></Layout>} />
             <Route path="/healthytips" element={<Layout><HealthyTips /></Layout>} />
             <Route path="/scanhistory" element={<Layout><ScanHistory /></Layout>} />

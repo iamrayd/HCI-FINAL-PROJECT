@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "../styles/Allergies.css"; // Create a CSS file for styling
+import { useNavigate } from "react-router-dom";
 
 function Allergies({ isVisible, onClose, onSubmit }) {
+  const navigate = useNavigate();
   const [selectedAllergies, setSelectedAllergies] = useState([]);
 
   const allergiesList = [
@@ -33,6 +35,7 @@ function Allergies({ isVisible, onClose, onSubmit }) {
     e.preventDefault();
     onSubmit(selectedAllergies); // Pass selected allergies back to parent
     onClose(); // Close the modal
+    navigate('/home');
   };
 
   if (!isVisible) return null; // Don't render if modal is not visible
