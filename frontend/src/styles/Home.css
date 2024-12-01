@@ -1,3 +1,8 @@
+body {
+  margin: 0; /* Remove default margins */
+  background-color: #ffffff; /* Default to white background */
+}
+
 .home-page {
   display: flex;
   flex-direction: column;
@@ -9,6 +14,8 @@
   padding-top: 3%;
   position: relative;
 }
+
+
 
 .small-card-user-container {
   position: relative;
