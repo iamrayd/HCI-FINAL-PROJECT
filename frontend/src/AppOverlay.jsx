@@ -1,6 +1,6 @@
 // AppOverlay.jsx
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom'; 
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Overlay from './components/Overlay';
@@ -11,26 +11,17 @@ import './styles/Signin.css';
 const AppOverlay = ({ onSignIn }) => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
   
   useEffect(() => {
-    console.log("AppOverlay rendered, current path:", location.pathname);
-
+    console.log("AppOverlay rendered, current path:", location.pathname);  // Log the current path
     if (location.pathname === '/sign-up') {
-      setIsRightPanelActive(true);
-    } else if (location.pathname === '/sign-in') {
-      setIsRightPanelActive(false);
+      setIsRightPanelActive(true);  
+    } else {
+      setIsRightPanelActive(false); 
     }
   }, [location.pathname]);
 
-  // Sync navigation with `isRightPanelActive`
-  useEffect(() => {
-    if (isRightPanelActive) {
-      navigate("/sign-up");
-    } else {
-      navigate("/sign-in");
-    }
-  }, [isRightPanelActive, navigate]);
+  
 
   return (
     <div className={`container ${isRightPanelActive ? 'right-panel-active' : ''}`}>

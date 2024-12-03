@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import AppOverlay from './AppOverlay'; // This contains the sign-in/sign-up logic
@@ -26,20 +26,17 @@ function Layout({ children }) {
 }
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('isAuthenticated') === 'true';
-  });
-
+  // Handle Sign-In or Sign-Up successful login
   const handleSignIn = () => {
-    setIsAuthenticated(true); 
-    localStorage.setItem('isAuthenticated', 'true'); 
+    setIsAuthenticated(true);  // Set user as authenticated
   };
+  
 
   // Handle user logout
   const handleSignOut = () => {
-    setIsAuthenticated(false); 
-    localStorage.removeItem('isAuthenticated'); 
+    setIsAuthenticated(false);  // Set user as not authenticated
   };
 
   return (
@@ -60,6 +57,7 @@ const App = () => {
             <Route path="/healthytips" element={<Layout><HealthyTips /></Layout>} />
             <Route path="/scanhistory" element={<Layout><ScanHistory /></Layout>} />
             <Route path="/favorites" element={<Layout><Favorites /></Layout>} />
+            
           </>
         )}
       </Routes>

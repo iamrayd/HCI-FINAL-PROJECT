@@ -36,7 +36,6 @@ export const signupUser = (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  // Validate allergens
   const allergenIds = [];
   const allergyQueries = allergies.map(allergy => {
     return new Promise((resolve, reject) => {
@@ -57,21 +56,25 @@ export const signupUser = (req, res) => {
     .then(() => bcrypt.hash(password, 10))
     .then(hashedPassword => {
       const query = 'INSERT INTO USERS (firstname, lastname, email, password, midint, gender, username) VALUES (?, ?, ?, ?, ?, ?, ?)';
-      con.query(query, [firstname, lastname, email, hashedPassword, midint, gender, username], (err, result) => {
-        if (err) return res.status(500).json({ message: 'Error during signup' });
-
-        const userId = result.insertId;
-        const userAllergenQueries = allergenIds.map(allergenId => {
-          return new Promise((resolve, reject) => {
-            const query = 'INSERT INTO USER_ALLERGENS (user_id, allergen_id) VALUES (?, ?)';
-            con.query(query, [userId, allergenId], err => (err ? reject(err) : resolve()));
-          });
+      return new Promise((resolve, reject) => {
+        con.query(query, [firstname, lastname, email, hashedPassword, midint, gender, username], (err, result) => {
+          if (err) return reject(err);
+          resolve(result); // Return result to resolve the promise
         });
-
-        return Promise.all(userAllergenQueries);
       });
     })
-    .then(() => {
+    .then((result) => {
+      const userId = result.insertId;
+      const userAllergenQueries = allergenIds.map(allergenId => {
+        return new Promise((resolve, reject) => {
+          const query = 'INSERT INTO USER_ALLERGENS (user_id, allergen_id) VALUES (?, ?)';
+          con.query(query, [userId, allergenId], err => (err ? reject(err) : resolve()));
+        });
+      });
+
+      return Promise.all(userAllergenQueries).then(() => result); // Ensure allergens are inserted before responding
+    })
+    .then((result) => {
       const token = jwt.sign({ user_id: result.insertId }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(201).json({
         message: 'Signup successful',
@@ -79,5 +82,9 @@ export const signupUser = (req, res) => {
         user: { user_id: result.insertId, email },
       });
     })
-    .catch(err => res.status(400).json({ error: err.message }));
+    .catch(err => {
+      console.error(err);
+      res.status(400).json({ error: err.message });
+    });
 };
+

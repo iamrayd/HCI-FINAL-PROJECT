@@ -7,7 +7,6 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import barcodeRoutes from './routes/barcodeRoutes.js';
 
-
 dotenv.config();
 const app = express();
 
