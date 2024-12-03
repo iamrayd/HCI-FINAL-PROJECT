@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaArrowLeft,
   FaUser,
@@ -36,7 +36,7 @@ function SignUp() {
   const [success, setSuccess] = useState("");
 
   const handleBackClick = () => {
-    navigate("/"); // Navigate back to Landing Page
+    navigate("/"); 
   };
 
   const handleChange = (e) => {
@@ -44,7 +44,9 @@ function SignUp() {
     setErrors((prevErrors) => ({
       ...prevErrors,
       [e.target.name]: "",
+      
     }));
+    setSuccess("");
   };
 
   const handleSubmit = async (e) => {
@@ -99,13 +101,21 @@ function SignUp() {
 
   const closeModal = () => {
     setIsModalVisible(false); // Close allergies modal
-    sendDataToBackend(); // Call the function to send data to the backend
   };
 
-  const sendDataToBackend = async () => {
+  const handleAllergiesSubmit = (allergies) => {
+    setSelectedAllergies(allergies);
+    closeModal(); 
+    sendDataToBackend(allergies);
+  };
+
+
+  const sendDataToBackend = async (allergies) => {
     try {
+      console.log("ALLERGYYYY", allergies);
+
       // Send data to backend API
-      await axios.post("http://localhost:5000/api/auth/signup", {
+      const response = await axios.post("http://localhost:5000/api/auth/signup", {
         firstname: formData.firstname,
         midint: formData.midint,
         lastname: formData.lastname,
@@ -113,9 +123,10 @@ function SignUp() {
         gender: formData.gender,
         password: formData.password,
         username: formData.username,
-        allergies: selectedAllergies,
+        allergies: allergies
       });
-
+      console.log("Backend response:", response.data);
+      console.log("ALLERGYYYY", allergies);
       setSuccess("User created successfully!");
       setErrors({}); // Clear errors
       setFormData({
@@ -137,21 +148,7 @@ function SignUp() {
     }
   };
 
-  const handleAllergiesSubmit = (allergies) => {
-    setSelectedAllergies(allergies);
-    closeModal(); // Close the modal and send data to backend
-  };
-
-  const handleRemoveAllergy = (allergyToRemove) => {
-    setSelectedAllergies((prevAllergies) =>
-      prevAllergies.filter((allergy) => allergy !== allergyToRemove)
-    );
-  };
-
-  
-
-  
-
+ 
   return (
     <div className="signup-form">
       <button

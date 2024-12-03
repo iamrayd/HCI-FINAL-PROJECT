@@ -1,4 +1,3 @@
-// SignIn.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCheckSquare, FaRegSquare, FaFacebookF, FaTwitter, FaInstagram, FaArrowLeft } from "react-icons/fa";

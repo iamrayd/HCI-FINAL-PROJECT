@@ -6,18 +6,18 @@ import {
   updateUser,
   deleteUser,
   checkEmail,
-
+  getUserAllergens,
 } from '../controller/userController.js';
 
 const router = express.Router();
 
-router.get('/users', authMiddleware, getAllUsers);
-router.get('/users/:id', authMiddleware, getUserById);
-router.put('/users/:id', authMiddleware, updateUser);
-router.delete('/users/:id', authMiddleware, deleteUser);
+// Routes
+router.get('/', authMiddleware, getAllUsers);
+router.get('/:id', authMiddleware, getUserById);
+router.put('/:id', authMiddleware, updateUser);
+router.delete('/:id', authMiddleware, deleteUser);
 
-router.post('/users/check-email', checkEmail);
-
-
+router.get('/:id/allergens', authMiddleware, getUserAllergens);
+router.post('/check-email', checkEmail);
 
 export default router;

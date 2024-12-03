@@ -1,117 +1,69 @@
 import con from '../config/database.js';
 
-// GET ALL users from db
+// Get all users
 export const getAllUsers = (req, res) => {
-  const query = 'SELECT * FROM USERS'; // Query to get all users
-
+  const query = 'SELECT * FROM USERS';
   con.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching users:', err.stack);
-      return res.status(500).json({ error: 'Error fetching users' });
-    }
-
-    res.status(200).json({
-      message: 'All users fetched successfully',
-      users: results,
-    });
+    if (err) return res.status(500).json({ message: 'Error fetching users' });
+    res.status(200).json({ users: results });
   });
 };
 
-// GET a single user by ID from db
+// Get user by ID
 export const getUserById = (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT * FROM USERS WHERE user_id = ?'; // Query for a user by ID
-
+  const query = 'SELECT * FROM USERS WHERE user_id = ?';
   con.query(query, [id], (err, results) => {
-    if (err) {
-      console.error('Error fetching user:', err.stack);
-      return res.status(500).json({ error: 'Error fetching user' });
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ error: `User with ID ${id} not found` });
-    }
-
-    res.status(200).json({
-      message: `User with ID ${id} fetched successfully`,
-      user: results[0],
-    });
+    if (err) return res.status(500).json({ message: 'Error fetching user' });
+    if (results.length === 0) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ user: results[0] });
   });
 };
 
-
-// PUT (update) a user by ID
+// Update user
 export const updateUser = (req, res) => {
   const { id } = req.params;
-  const { firstname, midint, lastname, email, gender, password } = req.body;
-
-  // Validate required fields
-  if (!firstname || !lastname || !email || !password || !gender) {
-    return res.status(400).json({ error: 'Firstname, lastname, email, password, and gender are required' });
-  }
-
-  // Ensure gender is either 'M' or 'F'
-  if (gender !== 'M' && gender !== 'F') {
-    return res.status(400).json({ error: 'Gender must be either M or F' });
-  }
-
-  const query = 'UPDATE USERS SET firstname = ?, lastname = ?, email = ?, password = ?, midint = ?, gender = ? WHERE user_id = ?';
-
-  con.query(query, [firstname, lastname, email, password, midint, gender, id], (err, results) => {
-    if (err) {
-      console.error('Error updating user:', err.stack);
-      return res.status(500).json({ error: 'Error updating user' });
-    }
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ error: `User with ID ${id} not found` });
-    }
-
-    res.status(200).json({
-      message: `User with ID ${id} updated successfully`,
-      user: { user_id: id, firstname, lastname, email, midint, gender },
-    });
+  const { firstname, lastname, email, gender, password } = req.body;
+  const query = 'UPDATE USERS SET firstname = ?, lastname = ?, email = ?, password = ?, gender = ? WHERE user_id = ?';
+  con.query(query, [firstname, lastname, email, password, gender, id], (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error updating user' });
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ message: 'User updated successfully' });
   });
 };
 
-// DELETE a user by ID
+// Delete user
 export const deleteUser = (req, res) => {
   const { id } = req.params;
-
   const query = 'DELETE FROM USERS WHERE user_id = ?';
-
   con.query(query, [id], (err, results) => {
-    if (err) {
-      console.error('Error deleting user:', err.stack);
-      return res.status(500).json({ error: 'Error deleting user' });
-    }
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ error: `User with ID ${id} not found` });
-    }
-
-    res.status(200).json({
-      message: `User with ID ${id} deleted successfully`,
-    });
+    if (err) return res.status(500).json({ message: 'Error deleting user' });
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ message: 'User deleted successfully' });
   });
 };
 
-// Email duplication check
-export const checkEmail = async (req, res) => {
+// Check email existence
+export const checkEmail = (req, res) => {
   const { email } = req.body;
   const query = 'SELECT * FROM USERS WHERE email = ?';
-  
   con.query(query, [email], (err, results) => {
-    if (err) {
-      console.error('Error checking email:', err);
-      return res.status(500).json({ message: 'Error checking email.' });
-    }
-    
-    if (results.length > 0) {
-      return res.status(200).json({ exists: true });
-    }
-    res.status(200).json({ exists: false });
+    if (err) return res.status(500).json({ message: 'Error checking email' });
+    res.status(200).json({ exists: results.length > 0 });
   });
 };
 
-
+// Get user allergens
+export const getUserAllergens = (req, res) => {
+  const { id } = req.params;
+  const query = `
+    SELECT a.allergen_name
+    FROM USER_ALLERGENS ua
+    JOIN ALLERGENS a ON ua.allergen_id = a.allergen_id
+    WHERE ua.user_id = ?
+  `;
+  con.query(query, [id], (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error fetching allergens' });
+    res.status(200).json({ allergens: results.map(item => item.allergen_name) });
+  });
+};

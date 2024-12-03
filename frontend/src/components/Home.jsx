@@ -34,7 +34,7 @@ const Home = () => {
         />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">John Doe</p>
+          <p className="username-small-card">JOhn</p>
         </div>
         <FaChevronDown color="gray" className="arrow-down"/>
       </div>

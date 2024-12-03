@@ -1,31 +1,36 @@
+/* Main section for the scanning feature */
 .scan-section {
   flex-direction: column;
   display: flex;
-  align-items: flex-end;
-  height: 600px;
-  width: auto;
+  align-items: center;
+  height: auto;
   padding: 20px;
-  padding-top: 3%;
   position: relative;
 }
 
+/* Scan container styling */
 .scan-container {
-  align-self: center;
   width: 600px;
+  height: 500px; /* Set a fixed height for the scan area */
   border: 2px solid black;
   border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px;
 }
 
+/* Title above the scan container */
 .scan-title {
   color: black;
-  justify-self: center;
-  align-self: center;
-  padding: 0;
   font-size: 20px;
-  margin-top: 20px
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.cancel-button {
-  margin-top: 20px; 
-  padding: 10px 20px; 
+.scan-buttons {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  gap: 50px;
 }
+
+

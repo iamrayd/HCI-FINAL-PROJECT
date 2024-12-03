@@ -32,7 +32,7 @@ function Allergies({ isVisible, onClose, onSubmit }) {
   };
 
   const handleSave = () => {
-    // Pass selected allergies back to parent and close the modal
+    console.log("Final selectedAllergies on Save:", selectedAllergies);
     onSubmit(selectedAllergies);
   };
 
