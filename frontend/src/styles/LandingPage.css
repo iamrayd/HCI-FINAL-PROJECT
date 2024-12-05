@@ -351,7 +351,7 @@ body {
   background-color: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 100px;
   width: auto;
   height: 500px;
@@ -468,7 +468,7 @@ body {
 .how-scan-container {
   background-color: #ffffff;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 120px;
   width: auto;

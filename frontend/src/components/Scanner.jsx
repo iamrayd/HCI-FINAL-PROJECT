@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Quagga from 'quagga'; // Import Quagga for barcode scanning
+import Quagga from '@ericblade/quagga2'; 
 import '../styles/Scanner.css';
 import { FaChevronDown, FaArrowDown } from 'react-icons/fa';
 import dadi from '../assets/dadi.jpg';
