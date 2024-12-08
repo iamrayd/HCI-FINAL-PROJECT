@@ -298,8 +298,10 @@ const LandingPage = () => {
       </div>
 
       <div className="how-scan-container">
+        <div>
+          <h2 className="how-scan-header">How the Scanner works</h2>
+        </div>
         <div className="how-scan-text">
-          <h2>How the Scanner works</h2>
           <div>
             <ul className="how-scan-info">
               <li>
@@ -329,10 +331,11 @@ const LandingPage = () => {
               </li>
             </ul>
           </div>
+          <div className="how-scan-image">
+            <img src={howScan} alt="image" />
         </div>
-        <div className="how-scan-image">
-          <img src={howScan} alt="image" />
         </div>
+
       </div>
 
       <div className="healty-shopping-tips-container">

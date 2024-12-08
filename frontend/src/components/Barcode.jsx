@@ -1,58 +1,91 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios"; 
-import "../styles/Barcode.css"; 
+import axios from "axios";
+import { FaChevronDown, FaStar, FaExclamationTriangle } from 'react-icons/fa'; 
+import "../styles/Barcode.css";
 import dadi from '../assets/dadi.jpg';
-import { FaChevronDown, FaStar } from 'react-icons/fa';
 
 const Barcode = () => {
-  const { state } = useLocation(); // Retrieve the barcode passed from Scanner.jsx
-  const passedBarcode = state?.barcode || 'Unknown barcode'; // Get the barcode from the passed state
+  const { state } = useLocation(); 
+  const passedBarcode = state?.barcode || 'Unknown barcode'; 
   const navigate = useNavigate();
 
-  // Set state to hold product details
+  const user_id = localStorage.getItem('user_id');
+  console.log("-->",user_id);
+  console.log("-->",passedBarcode);
+
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch product details based on barcode
+
   useEffect(() => {
     const fetchProductDetails = async () => {
+      console.log("User ID:", user_id); 
+
       try {
-        const response = await axios.get(`http://localhost:5000/api/products/${passedBarcode}`);
+        if (!user_id) {
+          setError("User is not authenticated.");
+          setLoading(false);
+          return;
+        }
+          const response = await axios.get(`http://localhost:5000/api/products/${passedBarcode}`);
         console.log("Product details fetched:", response.data);
-        setProduct(response.data);  // Set the product data from the response
-        setLoading(false);  // Stop loading
+        setProduct(response.data);
+        console.log("Product id:", response.data.product_id);
+        addToRecentScans(response.data.product_id);
+        setLoading(false);
       } catch (err) {
-        setError("Error fetching product details.");
-        setLoading(false);  // Stop loading in case of error
+        if (err.response?.status === 404) {
+          setError("Product not found for the given barcode.");
+        } else {
+          setError("Error fetching product details.");
+        }
+        setLoading(false);
       }
     };
-
+  
     fetchProductDetails();
-  }, [passedBarcode]); // Re-run when passedBarcode changes
+  }, [passedBarcode, user_id]);  
+  
 
-  // If loading, show loading message
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // If there's an error, show the error message
+  const addToRecentScans = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/products/recent-scans', {
+        user_id: user_id,  
+        product_id: product.product_id,
+      });
+      console.log("Scan added to recent scans:", response.data);
+    } catch (err) {
+      console.error("Error adding to recent scans:", err);
+    }
+  };
+
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="error-container">
+        <FaExclamationTriangle className="icon-warning" />
+        <h2>{error}</h2>
+        <button onClick={() => navigate('/scanner')} className="retry-button">
+          Scan Again
+        </button>
+      </div>
+    );
   }
 
-  // Ensure allergens is always an array (in case it is a string or undefined)
-  const allergens = Array.isArray(product.allergens) ? product.allergens : (product.allergens ? product.allergens.split(',') : []);
+  const allergens = Array.isArray(product.allergens)
+    ? product.allergens
+    : (product.allergens ? product.allergens.split(',') : []);
 
   return (
     <div className="barcode-con">
       <div className="small-card-user-container" onClick={() => navigate('/dietaryprofile')}>
-        <img
-          src={dadi} // Placeholder image, replace with actual user image
-          alt="User Avatar"
-          className="user-avatar-small-card"
-        />
+        <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
           <p className="username-small-card">John Doe</p>
@@ -61,7 +94,6 @@ const Barcode = () => {
       </div>
 
       <div className="food-label-container">
-        {/* Top Row */}
         <div className="top-row">
           <div className="barcode">
             <strong>Barcode#</strong> {passedBarcode}
@@ -71,7 +103,6 @@ const Barcode = () => {
           </div>
         </div>
 
-        {/* Main Grid */}
         <div className="main-grid">
           <div className="group1">
             <div className="box calories">
@@ -84,32 +115,37 @@ const Barcode = () => {
             </div>
           </div>
 
-          {/* Nutrients Section */}
           <div className="box nutrients">
             <h3>Nutrients</h3>
             <ul>
               {product.nutrients?.split(',').map((nutrient, index) => (
-                <li key={index}><strong>{nutrient}:</strong> {product.nutrient_quantities?.split(',')[index]} {product.unit || ''}</li>
+                <li key={index}>
+                  <strong>{nutrient}:</strong> {product.nutrient_quantities?.split(',')[index]}
+                </li>
               ))}
             </ul>
           </div>
 
-          {/* Nutrient Information */}
           <div className="box nutrient-info">
             <h3>Nutrient Information</h3>
             <ul>
               <li><strong>Calories:</strong> {product.calories} kcal</li>
-              {/* You can add more nutrient details dynamically here as needed */}
             </ul>
           </div>
         </div>
 
-        {/* Ingredients Section */}
         <div className="ingredients-section">
           <h3>Ingredients</h3>
-          <p>{product.ingredients}</p>  {/* Display ingredients dynamically */}
+          <p>{product.ingredients}</p> {/* Display ingredients dynamically */}
           <button className="star">
             <FaStar className="star-icon" size={30} />
+          </button>
+        </div>
+
+        {/* Scan Again Button */}
+        <div className="scan-again-container">
+          <button onClick={() => navigate('/scanner')} className="retry-button">
+            Scan Again
           </button>
         </div>
       </div>

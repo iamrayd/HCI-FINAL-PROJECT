@@ -80,7 +80,6 @@ display: flex;
     font-family: 'Geologica', sans-serif;
   }
 
-
   
   .box {
     border: 1px solid #ddd;
@@ -207,3 +206,31 @@ display: flex;
   .start-scan-button {
     margin: 10px 0;
   }
+
+  .error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    height: 100vh; 
+    color: black;
+    text-align: center;
+
+  }
+  
+  .retry-button {
+    margin-top: 20px;
+    padding: 10px 20px; 
+    background-color: white; 
+    color: black; 
+    border: 2px solid white; 
+    border-radius: 5px;
+    font-size: 16px; 
+    cursor: pointer; 
+    border: 1px solid black;
+  }
+  
+  .retry-button:hover {
+    background-color: lightgray;
+  }
+  

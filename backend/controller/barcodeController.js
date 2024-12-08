@@ -1,5 +1,6 @@
 import con from '../config/database.js';
 
+
 export const getProductDetails = (req, res) => {
   const { barcode } = req.params;
 
@@ -35,3 +36,54 @@ GROUP BY
     res.status(200).json(results[0]);
   });
 };
+
+
+export const addToRecentScans = (req, res) => {
+    const { user_id, product_id } = req.body;
+    console.log("Received request data:", { user_id, product_id });
+
+    if (!user_id || !product_id) {
+        return res.status(400).send('Missing user_id or product_id');
+      }
+  
+    const query = `
+      INSERT INTO RECENT_SCANS (user_id, product_id)
+      VALUES (?, ?)
+      ON DUPLICATE KEY UPDATE scan_date = CURRENT_TIMESTAMP; 
+    `;
+  
+    con.query(query, [user_id, product_id], (err, result) => {
+      if (err) {
+        console.error('Error adding recent scan:', err);
+        return res.status(500).json({ message: 'Error adding recent scan' });
+      }
+      res.status(200).json({ message: 'Recent scan added successfully' });
+    });
+  };
+  
+  
+  export const getRecentScans = (req, res) => {
+    const { user_id } = req.params; 
+    console.log(req.query);
+
+    if(!user_id){
+      return res.status(400).json({message: 'USER ID is required'});
+    }
+  
+    const query = `
+      SELECT p.product_name, p.barcode_num, rs.scan_date
+      FROM RECENT_SCANS rs
+      INNER JOIN PRODUCTS p ON rs.product_id = p.product_id
+      ORDER BY rs.scan_date DESC; 
+    `;
+  
+    con.query(query, [user_id], (err, results) => {
+      if (err) {
+        console.error('Error fetching recent scans:', err);
+        return res.status(500).json({ message: 'Error fetching recent scans' });
+      }
+  
+      res.status(200).json(results.length ? results : []);
+    });
+  };
+  

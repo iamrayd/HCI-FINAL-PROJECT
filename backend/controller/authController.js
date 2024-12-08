@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import con from '../config/database.js';
 
-// User Login
 export const loginUser = (req, res) => {
   const { email, password } = req.body;
 
@@ -18,11 +17,11 @@ export const loginUser = (req, res) => {
     bcrypt.compare(password, user.password, (err, isMatch) => {
       if (err || !isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-      const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ user_id: user.user_id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.status(200).json({
         message: 'Login successful!',
         token: `Bearer ${token}`,
-        user: { user_id: user.user_id, email: user.email },
+        user: { user_id: user.user_id, email: user.email, username: user.username },
       });
     });
   });

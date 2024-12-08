@@ -7,12 +7,13 @@ import dadi from '../assets/dadi.jpg';
 
 const Scanner = () => {
   const navigate = useNavigate();
+  const username = localStorage.getItem('username'); 
   const [isScanning, setIsScanning] = useState(false); // Track scanning state
+  const [hasScanned, setHasScanned] = useState(false);
   const videoRef = useRef(null);
 
   const startScanning = () => {
-    if (videoRef.current) {
-      // Test camera access directly first
+    if (videoRef.current && !hasScanned) {
       navigator.mediaDevices
         .getUserMedia({ video: { facingMode: "environment" } })
         .then((stream) => {
@@ -30,8 +31,8 @@ const Scanner = () => {
                 },
               },
               decoder: {
-                readers: ["ean_reader"], 
-              },
+                readers: ["ean_reader"],              
+              }
             },
             (err) => {
               if (err) {
@@ -39,12 +40,13 @@ const Scanner = () => {
                 return;
               }
               Quagga.start();
-              setIsScanning(true); // Set scanning state to true
+              setIsScanning(true); 
             }
           );
 
           Quagga.onDetected((result) => {
-            const barcode = result.codeResult.code; // Get the scanned barcode
+            if (hasScanned) return;
+            const barcode = result.codeResult.code;
             setIsScanning(false);
             Quagga.stop();
             if (videoRef.current && videoRef.current.srcObject) {
@@ -62,11 +64,16 @@ const Scanner = () => {
     }
   };
 
+
+    
+
+
   const handleCardClick = () => {
     navigate('/dietaryprofile'); 
   };
 
   const handleStopScanning = () => {
+    setHasScanned(false);
     setIsScanning(false);
     Quagga.stop();
     if (videoRef.current && videoRef.current.srcObject) {
@@ -78,6 +85,7 @@ const Scanner = () => {
 
   // Cleanup on component unmount or route change
   useEffect(() => {
+    
     return () => {
       // Stop Quagga and camera when leaving the scanner page
       if (isScanning) {
@@ -101,7 +109,7 @@ const Scanner = () => {
         />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">John Doe</p>
+          <p className="username-small-card">{username}</p>
         </div>
         <FaChevronDown color="gray" className="arrow-down" />
       </div>

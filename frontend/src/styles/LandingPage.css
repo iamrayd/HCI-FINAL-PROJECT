@@ -7,6 +7,8 @@ body {
   font-family: 'Geologica', sans-serif;
 }
 
+
+
 .landing-page {
   margin: 0;
   padding: 0;
@@ -468,6 +470,7 @@ body {
 .how-scan-container {
   background-color: #ffffff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 120px;
@@ -475,19 +478,29 @@ body {
   height: 700px;
   position: relative;
 }
+
+.how-scan-header {
+  color: rgba(28, 52, 129, 1);
+  font-family: 'Geologica', sans-serif;
+  font-size: 50px;
+}
+
 .how-scan-text {
-  width: 50%;
+  display: flex;
+  gap: 50px;
   padding: 0px;
   margin-top: 10px;
 }
 .how-scan-info {
   list-style: none;
+  padding: 0;
+  margin: 0px 40px;
 }
 .how-scan-text h2{
   color: rgba(28, 52, 129, 1);
   font-family: 'Geologica', sans-serif;
-  align-self: flex-start;
   font-size: 50px;
+  align-self: flex-start;
   width: 100%;
   margin-bottom: 10px;
   padding: 20px;
@@ -522,9 +535,11 @@ body {
   border: 10px solid rgba(209, 219, 220, 1);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
   border-radius: 45px;
+  margin: 0px 40px;
 }
 .how-scan-image {
-  margin-top: 30px;
+  margin: 0;
+  padding: 0;
 }
 
 

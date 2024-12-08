@@ -11,16 +11,16 @@ function SignIn({ onSignIn, setIsRightPanelActive }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [check, setCheck] = useState(false);
   const [error, setError] = useState(''); // State for error messages
 
   const handleBackClick = () => {
     console.log("Back button clicked");
-    navigate('/');  // Navigate back to Landing Page
+    navigate('/');  
   };
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "email") {
@@ -30,7 +30,6 @@ function SignIn({ onSignIn, setIsRightPanelActive }) {
     }
   };
 
-  // Handle form submission (simulate sign-in)
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("SignIn form submitted with email:", email);
@@ -43,14 +42,19 @@ function SignIn({ onSignIn, setIsRightPanelActive }) {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
-        // Call onSignIn prop to notify parent component (App)
         if (onSignIn) {
           console.log("Calling onSignIn()...");
           onSignIn();
         }
-        navigate('/home');  // Redirect to home
+        const { user } = data;
+        setUsername(user.username);
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('user_id', user.user_id);
+        localStorage.setItem('email', user.email);
+        navigate('/home');  
       } else {
         setError(data.message || 'Login failed. Please try again.');
       }
@@ -89,9 +93,12 @@ function SignIn({ onSignIn, setIsRightPanelActive }) {
         <span onClick={() => setShowPassword(!showPassword)}>
           {showPassword ? <FiEye className="password-toggle-icon" color='black'/> : <FiEyeOff className="password-toggle-icon" color='black'/>}
         </span>
+        {error && <p className="error-message">{error}</p>} {/* Display error message */}
+
       </div>
-      {error && <p className="error-message">{error}</p>} {/* Display error message */}
+
       <button className="signin-btn" type="submit">Sign In</button>
+      
       <div className="additional-options">
           <label onClick={() => setCheck(!check)}>
             {check ? <FaCheckSquare color="black"/> : <FaRegSquare color="black"/>}
@@ -101,6 +108,7 @@ function SignIn({ onSignIn, setIsRightPanelActive }) {
             Forgot password?
           </a>
         </div>
+
       <div className="divider">OR</div>
       <div className="social-container">
         <a href="#" className="social"><FaFacebookF color="black" size={30}/></a>

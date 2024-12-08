@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 import '../styles/Home.css'; 
 import { FaRegClock, FaChevronDown } from 'react-icons/fa';
 import dadi from '../assets/dadi.jpg';
 
+
 const Home = () => {
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  const navigate = useNavigate(); 
+
+  const [username] = useState(localStorage.getItem('username' || "error"));
+  const [recentScans, setRecentScans] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  const user_id = localStorage.getItem('user_id');
 
   const handleCardClick = () => {
     navigate('/dietaryprofile');
   };
 
   const handleStartScan = () => {
-    navigate('/scanner'); // Navigate to the Scanner page when the scan button is clicked
+    navigate('/scanner'); 
   };
 
-  const recentScans = [
-    { productName: 'Peanuts', price: '$100.00', date: 'October 12, 2024', barcode: '#1234567890123' },
-    { productName: 'Chips', price: '$50.00', date: 'October 14, 2024', barcode: '#9876543210987' },
-    { productName: 'Apple', price: '$2.00', date: 'October 10, 2024', barcode: '#1122334455667' },
-    { productName: 'Orange Juice', price: '$3.50', date: 'October 11, 2024', barcode: '#2233445566778' },
-    { productName: 'Banana', price: '$1.00', date: 'October 9, 2024', barcode: '#3344556677889' },
-    { productName: 'Milk', price: '$4.00', date: 'October 8, 2024', barcode: '#4455667788990' },
-  ];
+
+  useEffect(() => {
+    const fetchRecentScans = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/products/recent-scans/:user_id`,{
+          params: { user_id},
+        });
+        console.log("Fetched recent scans data:", response.data);
+        setRecentScans(response.data);
+      } catch (err) {
+        console.error("Error fetching recent scans:", err);
+        setError('Error fetching recent scans');
+      } finally {
+        setLoading(false);
+      }
+    };
+      fetchRecentScans();
+  }, [user_id]);
+
+  if (loading) return <div>Loading...</div>;
+  
 
   return (
     <div className="home-page">
@@ -34,7 +56,7 @@ const Home = () => {
         />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">JOhn</p>
+          <p className="username-small-card">{username}</p> 
         </div>
         <FaChevronDown color="gray" className="arrow-down"/>
       </div>
@@ -55,14 +77,18 @@ const Home = () => {
           Product Info
         </h3>
         <div className="recent-scans">
-          {recentScans.map((scan, index) => (
-            <div key={index} className="scan-row">
-              <div className="scan-item">{scan.productName}</div>
-              <div className="scan-item">{scan.price}</div>
-              <div className="scan-item">{scan.date}</div>
-              <div className="scan-item">{scan.barcode}</div>
-            </div>
-          ))}
+          {recentScans.length === 0 ? (
+            <div>No recent scans.</div>
+          ) : (
+            recentScans.map((scan, index) => (
+              <div key={index} className="scan-row">
+                <div className="scan-item">{scan.product_name}</div>
+                <div className="scan-item">{scan.price}</div>
+                <div className="scan-item">{scan.scanDateTime}</div> {/* Display the scan date */}
+                <div className="scan-item">{scan.barcode_num}</div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

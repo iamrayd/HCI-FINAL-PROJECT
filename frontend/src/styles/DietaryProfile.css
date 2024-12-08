@@ -236,6 +236,7 @@
   display: flex;
   flex-wrap: wrap; /* Wrap items onto the next row */
   gap: 10px; /* Spacing between allergy items */
+  color: #000000;
 }
 
 .allergy-item {
