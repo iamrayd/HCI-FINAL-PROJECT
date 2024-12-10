@@ -38,21 +38,24 @@ GROUP BY
 
 
 export const addToRecentScans = (req, res) => {
-    const { user_id, product_id } = req.body;
-    console.log("Received request data:", { user_id, product_id });
-  
-    const query = `
-vo
-    `;
-  
-    con.query(query, [user_id, product_id], (err, result) => {
-      if (err) {
-        console.error('Error adding recent scan:', err);
-        return res.status(500).json({ message: 'Error adding recent scan' });
-      }
-      res.status(200).json({ message: 'Recent scan added successfully' });
-    });
-  };
+  const { user_id, product_id } = req.body;
+  console.log("Received request data:", { user_id, product_id });
+
+  const query = `
+    INSERT INTO RECENT_SCANS (user_id, product_id)
+    VALUES (?, ?)
+    ON DUPLICATE KEY UPDATE scan_date = CURRENT_TIMESTAMP;
+  `;
+
+  con.query(query, [user_id, product_id], (err, result) => {
+    if (err) {
+      console.error('Error adding recent scan:', err);
+      return res.status(500).json({ message: 'Error adding recent scan' });
+    }
+    res.status(200).json({ message: 'Recent scan added successfully' });
+  });
+};
+
   
   
   export const getRecentScans = (req, res) => {

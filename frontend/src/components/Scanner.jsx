@@ -17,7 +17,7 @@ const Scanner = () => {
 
   const addToRecentScans = async (productId) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/products/recent-scans', {
+      const response = await axios.post(`http://localhost:5000/api/products/recent-scans/${user_id}`, {
         user_id: user_id,  
         product_id: productId,
       });

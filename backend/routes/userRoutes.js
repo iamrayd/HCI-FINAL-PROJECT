@@ -7,7 +7,10 @@ import {
   updateUser,
   deleteUser,
   */
-  getScanHistory,
+  addFavorite,
+  getSafeScanHistory,
+  getDetectedScanHistory,
+  getAllScanHistory,
   deleteFavorite,
   getFavorites,
   removeAllergen,
@@ -22,9 +25,12 @@ router.delete('/remove-favorite', deleteFavorite);
 
 router.get('/allergens/:user_id', getUserAllergens);
 router.get('/favorites/:user_id', getFavorites);
-router.get('/scan-history/:user_id', getScanHistory);
+router.get('/scan-history/all/:user_id', getAllScanHistory);
+router.get('/scan-history/safe/:user_id', getSafeScanHistory);
+router.get('/scan-history/detected/:user_id', getDetectedScanHistory);
 
 router.post('/check-email', checkEmail);
+router.post('/favorites/:user_id', addFavorite)
 
 /*
 router.get('/', authMiddleware, getAllUsers);

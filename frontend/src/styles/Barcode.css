@@ -233,4 +233,9 @@ display: flex;
   .retry-button:hover {
     background-color: lightgray;
   }
+
+  .star-icon.filled {
+    color: yellow; 
+  }
+  
   

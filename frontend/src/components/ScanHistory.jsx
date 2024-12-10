@@ -7,53 +7,39 @@ import { FaChevronDown } from 'react-icons/fa';
 
 const ScanHistory = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState('all'); // Default filter
-  const [activeCategory, setActiveCategory] = useState('all'); // Track the active button
+  const [filter, setFilter] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [scanHistory, setScanHistory] = useState([]);
   const [error, setError] = useState(null);
-
+  const [username] = useState(localStorage.getItem('username' || "error"));
   const user_id = localStorage.getItem('user_id');
-  const user_allergens = localStorage.getItem('user_allergens')?.split(',') || []; // Fetch user allergens
 
-  useEffect(() => {
-    const fetchScanHistory = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/users/scan-history/${user_id}`);
-        console.log("Fetched scan history:", response.data);
-        setScanHistory(response.data);
-      } catch (err) {
-        console.error("Error fetching scan history:", err);
-        setError("Error fetching scan history");
-      }
-    };
-
-    fetchScanHistory();
-  }, [user_id]);
-
-  const filterRecords = (records, filter) => {
-    if (filter === 'safe') {
-      // Items without overlapping allergens
-      return records.filter(record => {
-        const recordAllergens = record.allergens?.split(',') || [];
-        return !recordAllergens.some(allergen => user_allergens.includes(allergen));
+  // Function to fetch scan history based on the filter
+  const fetchScanHistory = async (category) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/users/scan-history/${category}/${user_id}`, {
+        params: { user_id },
       });
-    } else if (filter === 'detect') {
-      // Items with overlapping allergens
-      return records.filter(record => {
-        const recordAllergens = record.allergens?.split(',') || [];
-        return recordAllergens.some(allergen => user_allergens.includes(allergen));
-      });
+      setScanHistory(response.data);
+    } catch (err) {
+      console.error("Error fetching scan history:", err);
+      setError("Error fetching scan history");
     }
-    return records; // Return all for "all"
   };
 
+  // Fetch scan history whenever the filter or user_id changes
+  useEffect(() => {
+    fetchScanHistory(filter); // Pass the filter to fetch the appropriate data
+  }, [filter, user_id]);
+
+  // Handle category click, change filter and fetch data
   const handleCategoryClick = (category) => {
     setFilter(category);
-    setActiveCategory(category); // Set the clicked button as active
+    setActiveCategory(category);
   };
 
   const handleViewInfoClick = (barcode) => {
-    navigate(`/barcode/${barcode}`);
+    navigate(`/barcode/${barcode}`, { state: { barcode } });
   };
 
   const handleCardClick = () => {
@@ -67,14 +53,10 @@ const ScanHistory = () => {
   return (
     <div className="scan-history">
       <div className="small-card-user-container" onClick={handleCardClick}>
-        <img
-          src={dadi}
-          alt="User Avatar"
-          className="user-avatar-small-card"
-        />
+        <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">John Doe</p>
+          <p className="username-small-card">{username}</p>
         </div>
         <FaChevronDown color="gray" className="arrow-down" />
       </div>
@@ -84,27 +66,26 @@ const ScanHistory = () => {
 
         {/* Category Buttons */}
         <div className="scan-history-categories">
-          <button 
+          <button
             className={`category-btn ${activeCategory === 'all' ? 'active' : ''}`}
             onClick={() => handleCategoryClick('all')}
           >
             All
           </button>
-          <button 
+          <button
             className={`category-btn ${activeCategory === 'safe' ? 'active' : ''}`}
             onClick={() => handleCategoryClick('safe')}
           >
             Safe
           </button>
-          <button 
+          <button
             className={`category-btn ${activeCategory === 'detect' ? 'active' : ''}`}
-            onClick={() => handleCategoryClick('detect')}
+            onClick={() => handleCategoryClick('detected')}
           >
             Allergies Detect
           </button>
         </div>
 
-        {/* Scan Records Table */}
         <div className="all-history-scan-records-container">
           <div className="table-header">
             <div className="table-header-item">Barcode No.</div>
@@ -115,28 +96,29 @@ const ScanHistory = () => {
             <div className="table-header-item">Status</div>
           </div>
 
-          {filterRecords(scanHistory, filter).map((record, index) => (
-            <div
-              key={index}
-              className={`table-row ${record.allergens && user_allergens.some(a => record.allergens.includes(a)) ? 'allergy-detected' : ''}`} 
-            >
-              <div className="table-item">{record.barcode_num}</div>
-              <div className="table-item">{record.date}</div>
-              <div className="table-item">{record.product_name}</div>
-              <div className="table-item-bold">
-                <button
-                  onClick={() => handleViewInfoClick(record.barcode_num)}
-                  className="view-info-btn"
-                >
-                  View Info
-                </button>
+          {Array.isArray(scanHistory) && scanHistory.length > 0 ? (
+            scanHistory.map((record, index) => (
+              <div key={index} className={`table-row ${record.allergen_status === 'Detected' ? 'allergy-detected' : ''}`}>
+                <div className="table-item">{record.barcode_num}</div>
+                <div className="table-item">{record.date}</div>
+                <div className="table-item">{record.product_name}</div>
+                <div className="table-item-bold">
+                  <button
+                    onClick={() => handleViewInfoClick(record.barcode_num)}
+                    className="view-info-btn"
+                  >
+                    View Info
+                  </button>
+                </div>
+                <div className="table-item">{record.price}</div>
+                <div className={`table-item-stats ${record.allergen_status === 'Detected' ? 'allergy-detected' : 'safe'}`}>
+                  {record.allergen_status === 'Detected' ? 'Allergy Detected' : 'Safe'}
+                </div>
               </div>
-              <div className="table-item">{record.price}</div>
-              <div className={`table-item-stats ${record.allergens && user_allergens.some(a => record.allergens.includes(a)) ? 'allergy-detected' : 'safe'}`}>
-                {record.allergens && user_allergens.some(a => record.allergens.includes(a)) ? 'Allergy Detected' : 'Safe'}
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div>No scan history found</div>
+          )}
         </div>
       </div>
     </div>

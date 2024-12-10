@@ -110,8 +110,27 @@ export const deleteFavorite = (req, res) => {
   });
 };
 
+export const addFavorite = (req, res) => {
+  const { user_id, product_id } = req.body;
+  console.log("Received request data:", { user_id, product_id });
+  const query = `
+    INSERT INTO USER_FAVORITES (user_id, product_id)
+    VALUES (?, ?)
+    ON DUPLICATE KEY UPDATE product_id = product_id;  
+  `;
 
-export const getScanHistory = (req, res) => {
+  con.query(query, [user_id, product_id], (err, result) => {
+    if (err) {
+      console.error("Error adding product to favorites:", err);
+      return res.status(500).json({ message: 'Error adding product to favorites' });
+    }
+
+    res.status(200).json({ message: 'Product added to favorites successfully' });
+  });
+};
+
+
+export const getAllScanHistory = (req, res) => {
   const { user_id } = req.params;
 
   const query = `
@@ -122,24 +141,109 @@ export const getScanHistory = (req, res) => {
       p.price, 
       rs.scan_date AS date,
       ni.ingredients, 
-      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      CASE
+        WHEN EXISTS (
+          SELECT 1
+          FROM USER_ALLERGENS ua
+          WHERE ua.user_id = rs.user_id
+          AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+        ) THEN 'Detected'
+        ELSE 'Safe'
+      END AS allergen_status
     FROM RECENT_SCANS rs
     JOIN PRODUCTS p ON rs.product_id = p.product_id
     LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
     LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
     WHERE rs.user_id = ?
-    GROUP BY 
-      p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients
+    ORDER BY 5;
   `;
 
   con.query(query, [user_id], (err, results) => {
     if (err) {
       console.error("Error fetching scan history:", err);
-      return res.status(500).json({ message: "Error fetching scan history" });
+      return res.status(500).json({ message: 'Error fetching scan history' });
     }
     res.status(200).json(results);
   });
 };
+
+// Fetch safe scan history
+export const getSafeScanHistory = (req, res) => {
+  const { user_id } = req.params;
+
+  const query = `
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      'Safe' AS allergen_status
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = ? 
+    AND NOT EXISTS (
+      SELECT 1
+      FROM USER_ALLERGENS ua
+      WHERE ua.user_id = rs.user_id
+      AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+    )
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+  `;
+
+  con.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching safe scan history:", err);
+      return res.status(500).json({ message: 'Error fetching safe scan history' });
+    }
+    res.status(200).json(results);
+  });
+};
+
+export const getDetectedScanHistory = (req, res) => {
+  const { user_id } = req.params;
+
+  const query = `
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      'Detected' AS allergen_status
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = ? 
+    AND EXISTS (
+      SELECT 1
+      FROM USER_ALLERGENS ua
+      WHERE ua.user_id = rs.user_id
+      AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+    )
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+  `;
+
+  con.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching detected scan history:", err);
+      return res.status(500).json({ message: 'Error fetching detected scan history' });
+    }
+    res.status(200).json(results);
+  });
+};
+
+
+
 
 
 

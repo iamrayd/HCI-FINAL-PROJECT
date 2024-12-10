@@ -17,7 +17,7 @@ const Barcode = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [username] = useState(localStorage.getItem('username' || "error"));
-
+  const [isFavorite, setIsFavorite] = useState(false); // State to track favorite status
 
   // Fetch Product Details
   useEffect(() => {
@@ -37,7 +37,6 @@ const Barcode = () => {
     fetchProductDetails();
   }, [passedBarcode]);
 
-  // Fetch User Allergens
   useEffect(() => {
     const fetchUserAllergens = async () => {
       try {
@@ -54,6 +53,7 @@ const Barcode = () => {
       setError("User is not authenticated.");
     }
   }, [user_id]);
+
 
   if (loading) return <div>Loading...</div>;
 
@@ -129,8 +129,8 @@ const Barcode = () => {
         <div className="ingredients-section">
           <h3>Ingredients</h3>
           <p>{product.ingredients}</p>
-          <button className="star">
-            <FaStar className="star-icon" size={30} />
+          <button className="star" >
+            <FaStar className={`star-icon ${isFavorite ? 'filled' : ''}`} size={30} />
           </button>
         </div>
 

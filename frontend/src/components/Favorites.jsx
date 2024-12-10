@@ -31,7 +31,6 @@ const Favorites = () => {
     fetchFavorites();
   }, [user_id]);
 
-  // Fetch product details when a product is selected
   useEffect(() => {
     if (selectedProduct) {
       console.log("Selected product barcode:", selectedProduct.barcode_num);
@@ -47,9 +46,7 @@ const Favorites = () => {
     }
   }, [selectedProduct]);
 
-  // Handle clicking on a product card
   const handleCardClick = (product, event) => {
-    // Stop the event from propagating to prevent triggering both actions
     event.stopPropagation();
     setSelectedProduct(product);
   };
