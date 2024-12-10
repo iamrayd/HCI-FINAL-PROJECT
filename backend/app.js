@@ -11,13 +11,11 @@ import barcodeRoutes from './routes/barcodeRoutes.js';
 dotenv.config();
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
 
-// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', barcodeRoutes);

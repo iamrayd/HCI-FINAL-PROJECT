@@ -28,7 +28,7 @@ const Home = () => {
   useEffect(() => {
     const fetchRecentScans = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/products/recent-scans/:user_id`,{
+        const response = await axios.get(`http://localhost:5000/api/products/recent-scans/${user_id}`,{
           params: { user_id},
         });
         console.log("Fetched recent scans data:", response.data);

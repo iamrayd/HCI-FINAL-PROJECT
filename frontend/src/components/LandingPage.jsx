@@ -262,8 +262,7 @@ const LandingPage = () => {
           <ul className="form-info">
             <li>
               <div className="form1">
-                <img src={barcode} alt="Barcode" />
-                  <button className= "features-button">features</button>
+                  <button className= "features-button">Features</button>
                 <h3>Barcode</h3>
                 <h1></h1>
                 <p>Real-time scanning of product barcodes to retrieve 
@@ -273,8 +272,7 @@ const LandingPage = () => {
             </li>
             <li>
               <div className="form2">
-                <img src={diet} alt="Barcode" />
-                <button className= "features-button">features</button>
+                <button className= "features-button">Features</button>
                 <h3>Dietary Profile</h3>
                 <h1></h1>
                 <p>Customize your dietary needs and restrictions for personalized 
@@ -284,8 +282,7 @@ const LandingPage = () => {
             </li>
             <li>
               <div className="form3">
-                <img src={tips} alt="Barcode" />
-                <button className= "features-button">features</button>
+                <button className= "features-button">Features</button>
                 <h3>Healthy Shopping Tips</h3>
                 <h1></h1>
                 <p>Essential Tips for Navigating Food Allergies and 

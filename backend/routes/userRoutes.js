@@ -7,6 +7,9 @@ import {
   updateUser,
   deleteUser,
   */
+  getScanHistory,
+  deleteFavorite,
+  getFavorites,
   removeAllergen,
   checkEmail,
   getUserAllergens,
@@ -15,7 +18,12 @@ import {
 const router = express.Router();
 
 router.delete('/allergens', removeAllergen)
+router.delete('/remove-favorite', deleteFavorite);
+
 router.get('/allergens/:user_id', getUserAllergens);
+router.get('/favorites/:user_id', getFavorites);
+router.get('/scan-history/:user_id', getScanHistory);
+
 router.post('/check-email', checkEmail);
 
 /*

@@ -1,3 +1,7 @@
+p {
+  color: black;
+}
+
 .favorites {
   display: flex;
   flex-direction: column;
@@ -87,4 +91,92 @@
     border: 2px solid #000000;
     background-color: #ffffff;
   }
+
+  .favorites-user-container {
+  padding: 20px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.star-icon {
+  color: #ffb400;
+}
+
+.product-detail-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.popup-content h4,
+.popup-content p {
+  color: black; 
+}
+
+.popup-content h4 {
+  margin: 0;
+  font-size: 1.5rem;;
+}
+
+.popup-content p {
+  margin: 5px 0;
+}
+
+
+
+.popup-content button {
+  margin-top: 20px;
+  margin-right: 5px;
+  padding: 10px;
+  width: 60px;
+  background-color: #ffb400;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.popup-content button:hover {
+  background-color: #ff9000;
+}
+
+  
   

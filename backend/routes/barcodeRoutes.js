@@ -3,10 +3,9 @@ import { getProductDetails, getRecentScans, addToRecentScans } from '../controll
 
 const router = express.Router();
 
-// Route to fetch product details by barcode
 router.get('/:barcode', getProductDetails);
 router.get('/recent-scans/:user_id', getRecentScans);
 
-router.post('/recent-scans', addToRecentScans);
+router.post('/recent-scans/:user_id', addToRecentScans);
 
 export default router;

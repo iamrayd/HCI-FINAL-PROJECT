@@ -4,13 +4,28 @@ import Quagga from '@ericblade/quagga2';
 import '../styles/Scanner.css';
 import { FaChevronDown, FaArrowDown } from 'react-icons/fa';
 import dadi from '../assets/dadi.jpg';
+import axios from 'axios';
 
 const Scanner = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem('username'); 
-  const [isScanning, setIsScanning] = useState(false); // Track scanning state
+  const [isScanning, setIsScanning] = useState(false); 
   const [hasScanned, setHasScanned] = useState(false);
   const videoRef = useRef(null);
+
+  const user_id = localStorage.getItem('user_id');
+
+  const addToRecentScans = async (productId) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/products/recent-scans', {
+        user_id: user_id,  
+        product_id: productId,
+      });
+      console.log("Scan added to recent scans:", response.data);
+    } catch (err) {
+      console.error("Error adding to recent scans:", err);
+    }
+  };
 
   const startScanning = () => {
     if (videoRef.current && !hasScanned) {
@@ -19,7 +34,6 @@ const Scanner = () => {
         .then((stream) => {
           videoRef.current.srcObject = stream;
 
-          // Initialize Quagga after the video stream is set
           Quagga.init(
             {
               inputStream: {
@@ -51,10 +65,24 @@ const Scanner = () => {
             Quagga.stop();
             if (videoRef.current && videoRef.current.srcObject) {
               const tracks = videoRef.current.srcObject.getTracks();
-              tracks.forEach(track => track.stop()); // Stop all tracks
-              videoRef.current.srcObject = null; // Clear the video source
+              tracks.forEach(track => track.stop());
+              videoRef.current.srcObject = null;
             }
-  
+
+            // Fetch the product details and trigger addToRecentScans
+            axios.get(`http://localhost:5000/api/products/${barcode}`)
+              .then((response) => {
+                const product = response.data;
+                if (product.product_id) {
+                  addToRecentScans(product.product_id);
+                } else {
+                  console.error("Product ID is missing");
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching product details:", error);
+              });
+
             navigate(`/barcode/${barcode}`, { state: { barcode } });
           });
         })
@@ -64,30 +92,19 @@ const Scanner = () => {
     }
   };
 
-
-    
-
-
-  const handleCardClick = () => {
-    navigate('/dietaryprofile'); 
-  };
-
   const handleStopScanning = () => {
     setHasScanned(false);
     setIsScanning(false);
     Quagga.stop();
     if (videoRef.current && videoRef.current.srcObject) {
       const tracks = videoRef.current.srcObject.getTracks();
-      tracks.forEach(track => track.stop()); // Stop all tracks
-      videoRef.current.srcObject = null; // Clear the video source
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
     }
   };
 
-  // Cleanup on component unmount or route change
   useEffect(() => {
-    
     return () => {
-      // Stop Quagga and camera when leaving the scanner page
       if (isScanning) {
         Quagga.stop();
         if (videoRef.current && videoRef.current.srcObject) {
@@ -101,12 +118,8 @@ const Scanner = () => {
 
   return (
     <div className="scan-section">
-      <div className="small-card-user-container" onClick={handleCardClick}>
-        <img
-          src={dadi}
-          alt="User Avatar"
-          className="user-avatar-small-card"
-        />
+      <div className="small-card-user-container" onClick={() => navigate('/dietaryprofile')}>
+        <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
           <p className="username-small-card">{username}</p>
@@ -115,9 +128,7 @@ const Scanner = () => {
       </div>
 
       <div className="scan-title">
-        <h2>
-          Scan product here <span><FaArrowDown /></span>
-        </h2>
+        <h2>Scan product here <span><FaArrowDown /></span></h2>
       </div>
 
       <div className="scan-container">

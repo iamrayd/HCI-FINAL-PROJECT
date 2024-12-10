@@ -54,6 +54,94 @@ export const removeAllergen = (req, res) => {
 };
 
 
+export const getFavorites = (req, res) => {
+  const { user_id } = req.params;
+  
+  const query = `
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens 
+    FROM 
+    USER_FAVORITES uf
+    JOIN 
+      PRODUCTS p ON uf.product_id = p.product_id
+    INNER JOIN 
+      NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN 
+      NUTRITIONAL_INFO_NUTRIENT nin ON ni.nutritional_info_id = nin.nutritional_info_id
+    LEFT JOIN 
+      NUTRIENT n ON nin.nutrient_id = n.nutrient_id
+    LEFT JOIN 
+      ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE user_id = ${user_id}
+    GROUP BY 
+    p.product_id, p.product_name, p.barcode_num, p.price, ni.ingredients, ni.calories;
+  `;
+
+  con.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching favorite products:", err);
+      return res.status(500).json({ message: 'Error fetching favorites' });
+    }
+
+    res.status(200).json(results); 
+  });
+};
+
+export const deleteFavorite = (req, res) => {
+  const { user_id, product_id } = req.body;
+
+  const query = `
+    DELETE FROM USER_FAVORITES 
+    WHERE user_id = ? AND product_id = ?;
+  `;
+  
+  con.query(query, [user_id, product_id], (err, result) => {
+    if (err) {
+      console.error("Error removing product from favorites:", err);
+      return res.status(500).json({ message: 'Error removing product from favorites' });
+    }
+
+    res.status(200).json({ message: 'Product removed from favorites successfully' });
+  });
+};
+
+
+export const getScanHistory = (req, res) => {
+  const { user_id } = req.params;
+
+  const query = `
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = ?
+    GROUP BY 
+      p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+  `;
+
+  con.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching scan history:", err);
+      return res.status(500).json({ message: "Error fetching scan history" });
+    }
+    res.status(200).json(results);
+  });
+};
+
+
 
 
 /*

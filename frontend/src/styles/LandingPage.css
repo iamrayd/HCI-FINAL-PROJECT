@@ -399,20 +399,24 @@ body {
   position: relative;
   width: auto;
   height: 750px;
-  background-color: #071952;
+  background-color: #ffffff;
   /*
   Mao niy nakacause ug guba
   padding: 80px;
   padding-top: 0% */
 }
 
+
+
 .scan-smarter-text {
-  color: #fcfdff;
+  color: rgba(28,52,129,1);
   font-family: 'Geologica', sans-serif;
   font-size: xx-large;
   margin-top: 50px;
   position: absolute;
 }
+
+
 
 .form-info {
   padding: 0%;
@@ -464,6 +468,48 @@ body {
   height: 240px;
   display: block; 
   margin: 0 auto;
+}
+
+.form1 {
+  background-image: url('../assets/woman-looking-shopping-list.png');
+}
+
+.form1 button {
+  display: flex;
+  justify-self: flex-end;
+  background-color: transparent;
+}
+
+.form1 h3 {
+  margin-top: 60%;
+}
+
+.form2 {
+  background-image: url('../assets/grocery-bag-fruits.png');
+}
+
+.form2 button {
+  display: flex;
+  justify-self: flex-end;
+  background-color: transparent;
+}
+
+.form2 h3 {
+  margin-top: 60%;
+}
+
+.form3 {
+  background-image: url('../assets/healthy-shopping-tips.png');
+}
+
+.form3 button {
+  display: flex;
+  justify-self: flex-end;
+  background-color: transparent;
+}
+
+.form3 h3 {
+  margin-top: 60%;
 }
 
 

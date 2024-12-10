@@ -18,9 +18,7 @@ const DietaryProfile = () => {
   const [username] = useState(localStorage.getItem('username' || "error"));
   const user_id = localStorage.getItem('user_id');
   const email = localStorage.getItem('email');
-  console.log("-->",user_id);
-  console.log("-->",username);
-  console.log("-->",email);
+ 
 
 
   useEffect(() => {
@@ -60,7 +58,6 @@ const DietaryProfile = () => {
 
   const handleRemoveConfirmed = async () => {
     try {
-      // Remove the allergy from the local state
       setAllergies(allergies.filter((item) => item !== selectedAllergy));
       setFormVisible(false);
       setSelectedAllergy(null);

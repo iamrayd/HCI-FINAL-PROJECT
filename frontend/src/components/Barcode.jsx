@@ -11,76 +11,68 @@ const Barcode = () => {
   const navigate = useNavigate();
 
   const user_id = localStorage.getItem('user_id');
-  console.log("-->",user_id);
-  console.log("-->",passedBarcode);
-
+  
   const [product, setProduct] = useState({});
+  const [userAllergens, setUserAllergens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [username] = useState(localStorage.getItem('username' || "error"));
 
 
+  // Fetch Product Details
   useEffect(() => {
     const fetchProductDetails = async () => {
-      console.log("User ID:", user_id); 
-
       try {
-        if (!user_id) {
-          setError("User is not authenticated.");
-          setLoading(false);
-          return;
-        }
-          const response = await axios.get(`http://localhost:5000/api/products/${passedBarcode}`);
-        console.log("Product details fetched:", response.data);
+        const response = await axios.get(`http://localhost:5000/api/products/${passedBarcode}`);
         setProduct(response.data);
-        console.log("Product id:", response.data.product_id);
-        addToRecentScans(response.data.product_id);
         setLoading(false);
       } catch (err) {
         if (err.response?.status === 404) {
           setError("Product not found for the given barcode.");
-        } else {
-          setError("Error fetching product details.");
         }
         setLoading(false);
       }
     };
-  
+
     fetchProductDetails();
-  }, [passedBarcode, user_id]);  
-  
+  }, [passedBarcode]);
 
+  // Fetch User Allergens
+  useEffect(() => {
+    const fetchUserAllergens = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/users/allergens/${user_id}`);
+        setUserAllergens(response.data.allergens || []);
+      } catch (err) {
+        setError('Error fetching user allergens');
+      }
+    };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  const addToRecentScans = async () => {
-    try {
-      const response = await axios.post('http://localhost:5000/api/products/recent-scans', {
-        user_id: user_id,  
-        product_id: product.product_id,
-      });
-      console.log("Scan added to recent scans:", response.data);
-    } catch (err) {
-      console.error("Error adding to recent scans:", err);
+    if (user_id) {
+      fetchUserAllergens();
+    } else {
+      setError("User is not authenticated.");
     }
-  };
+  }, [user_id]);
 
-  if (error) {
-    return (
-      <div className="error-container">
-        <FaExclamationTriangle className="icon-warning" />
-        <h2>{error}</h2>
-        <button onClick={() => navigate('/scanner')} className="retry-button">
-          Scan Again
-        </button>
-      </div>
-    );
-  }
+  if (loading) return <div>Loading...</div>;
+
+  if (error) return (
+    <div className="error-container">
+      <FaExclamationTriangle className="icon-warning" />
+      <h2>{error}</h2>
+      <button onClick={() => navigate('/scanner')} className="retry-button">
+        Scan Again
+      </button>
+    </div>
+  );
 
   const allergens = Array.isArray(product.allergens)
     ? product.allergens
     : (product.allergens ? product.allergens.split(',') : []);
+
+  // Determine if the product contains any allergens from the user's list
+  const containsAllergen = allergens.some(allergen => userAllergens.includes(allergen));
 
   return (
     <div className="barcode-con">
@@ -88,7 +80,7 @@ const Barcode = () => {
         <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
         <div className="user-info-small-card">
           <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">John Doe</p>
+          <p className="username-small-card">{username}</p>
         </div>
         <FaChevronDown color="gray" className="arrow-down" />
       </div>
@@ -98,8 +90,8 @@ const Barcode = () => {
           <div className="barcode">
             <strong>Barcode#</strong> {passedBarcode}
           </div>
-          <div className={`allergen-status ${allergens.length === 0 ? "safe" : "warning"}`}>
-            {allergens.length === 0 ? "No Allergens Detected" : "Contains Allergens"}
+          <div className={`allergen-status ${containsAllergen ? "warning" : "safe"}`}>
+            {containsAllergen ? "Contains Allergens" : "No Allergens Detected"}
           </div>
         </div>
 
@@ -111,7 +103,7 @@ const Barcode = () => {
             </div>
             <div className="box allergens">
               <h3>Allergens</h3>
-              <p>{allergens.join(", ")}</p> {/* Display allergens dynamically */}
+              <p>{allergens.join(", ")}</p>
             </div>
           </div>
 
@@ -136,7 +128,7 @@ const Barcode = () => {
 
         <div className="ingredients-section">
           <h3>Ingredients</h3>
-          <p>{product.ingredients}</p> {/* Display ingredients dynamically */}
+          <p>{product.ingredients}</p>
           <button className="star">
             <FaStar className="star-icon" size={30} />
           </button>
