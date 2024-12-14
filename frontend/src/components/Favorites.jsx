@@ -120,7 +120,7 @@ const Favorites = () => {
                   {/* Star icon, click triggers removal */}
                   <FaStar 
                     className="star-icon" 
-                    onClick={(event) => handleStarClick(product, event)} // Stop event propagation and trigger removal
+                    onClick={(event) => handleStarClick(product, event)} 
                   />
                 </div>
               </div>
@@ -134,7 +134,7 @@ const Favorites = () => {
         <div className="product-detail-popup">
           <div className="popup-content">
             <h4>{selectedProduct.product_name}</h4>
-            <p><strong>Price: $</strong> {selectedProduct.price}</p>
+            <p><strong>Price: </strong> Php {selectedProduct.price}</p>
             <p><strong>Ingredients:</strong> {selectedProduct.ingredients}</p>
             <p><strong>Allergens:</strong> {selectedProduct.allergens}</p>
             <p><strong>Barcode:</strong> {selectedProduct.barcode_num}</p>

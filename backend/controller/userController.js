@@ -23,9 +23,8 @@ export const getUserAllergens = (req, res) => {
   });
 };
 
-// Assuming you already have a function to handle database queries
 export const removeAllergen = (req, res) => {
-  const { user_id, allergen_name } = req.body; // Get the user_id and allergen_name from the request body
+  const { user_id, allergen_name } = req.body; 
 
   if (!user_id || !allergen_name) {
     return res.status(400).json({ message: 'User ID and allergen name are required' });
@@ -44,7 +43,7 @@ export const removeAllergen = (req, res) => {
       return res.status(500).json({ message: 'Error removing allergen' });
     }
 
-    // If no rows are affected, it means the allergen wasn't found
+    // if allergen not found
     if (results.affectedRows === 0) {
       return res.status(404).json({ message: 'Allergen not found' });
     }

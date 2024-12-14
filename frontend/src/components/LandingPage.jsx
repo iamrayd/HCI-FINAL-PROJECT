@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../styles/LandingPage.css";
 import foodImage from '../assets/empower.jfif'; 
 import logo from '../assets/mainLogo.png';
-import know from '../assets/know.png';
+import know1 from '../assets/know1.png';
 import barcode from '../assets/barcode.png';
 import diet from '../assets/dietary.png';
 import tips from '../assets/tips.png';
@@ -88,6 +88,8 @@ const LandingPage = () => {
   return (
     <div className="landing-page" ref={landingPageRef}>
       <div className="landing-page-container" ref={landingPageContainerRef}>
+
+        <div className="landing-page-container-with-bg">
         <nav className="navbar">
           <div className="logo-container">
             <img src={logo} alt="Logo" className="logo" />
@@ -133,7 +135,7 @@ const LandingPage = () => {
             onMouseEnter={() => setIsWhoWeServeHovered(true)} 
             onMouseLeave={() => setIsWhoWeServeHovered(false)}
           >
-            <a href="#who-we-serve">Who We Serve</a>
+            <a href="#who-we-serve">Benefeciaries</a>
             {isWhoWeServeHovered && (
               <div className="who-we-serve-dropdown">
                 <div className="column">
@@ -210,22 +212,20 @@ const LandingPage = () => {
           </li>
         </ul>
         <div className="nav-buttons">
-        <button className="signin-button" onClick={handleSignInClick}>Sign In</button>
-        <button className="signup-button" onClick={handleSignUpClick}>Sign Up</button>
+          <button className="signin-button" onClick={handleSignInClick}>Sign In</button>
+          <button className="signup-button" onClick={handleSignUpClick}>Sign Up</button>
         </div>
-      </nav>
+        </nav>
       
-      <div className="food-choices-container">
+        <div className="food-choices-container">
         <div className="text-overlay">
             <h1>
-            Empower<br/>
-            Your Food<br/>
-            Choices
+            Empower Your Food Choices
             </h1>
           <p>
-            Scan barcodes to instantly access<br/>
-            allergen warnings, nutritional details,<br/>
-            and personalize recommendations<br/>
+            Scan barcodes to instantly access
+            allergen warnings, nutritional details,
+            and personalize recommendations
             based on your dietary needs.
           </p>
           <button className="get-started-button" 
@@ -233,121 +233,139 @@ const LandingPage = () => {
             Get Started
           </button>
         </div>
-        <div className="image-section">
-          <img src={foodImage} alt="Empower your food choices" />
         </div>
-      </div>
 
-      <div className="know-your-food-container">
+        </div>
+        
+    
+        <div className="know-your-food-container">
         <div className="know-your-food-image">
-          <img src={know} alt="Know-your-food"></img>
+          <img src={know1} alt="Know-your-food"></img>
         </div>
         <div className="know-your-food-text">
-          <h1>How to <br/><span>Know your food?</span></h1>
+          <h1><span>How to</span> <br/>Know your food?</h1>
           <p>
           BarcodeHealth helps users to make<br/> 
           smarter food choices by scanning<br/>
           barcodes for instant nutritional info,<br/>
-           allergen detection, ingredient transparency, and personalized insights<br/> 
+           allergen detection, ingredient <br/>
+           transparency, and personalized insights<br/> 
            based on dietary needs.
           </p>
         </div>
-      </div> 
+        </div> 
 
-      <div className="scan-smarter-container">
-        <div className="scan-smarter-text">
-          <h2>Scan smarter with BarcodeHealth</h2>
-        </div>
-        <div>
-          <ul className="form-info">
-            <li>
-              <div className="form1">
-                  <button className= "features-button">Features</button>
-                <h3>Barcode</h3>
-                <h1></h1>
-                <p>Real-time scanning of product barcodes to retrieve 
-                  detailed nutritional and allergen information.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div className="form2">
-                <button className= "features-button">Features</button>
-                <h3>Dietary Profile</h3>
-                <h1></h1>
-                <p>Customize your dietary needs and restrictions for personalized 
-                  product recommendations and allergen alerts.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div className="form3">
-                <button className= "features-button">Features</button>
-                <h3>Healthy Shopping Tips</h3>
-                <h1></h1>
-                <p>Essential Tips for Navigating Food Allergies and 
-                  Making Healthy Choices.
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+        <div className="scan-smarter-container">
 
-      <div className="how-scan-container">
-        <div>
-          <h2 className="how-scan-header">How the Scanner works</h2>
-        </div>
+                <div className="scan-smarter-text">
+                  <h2>Scan smarter with BarcodeHealth</h2>
+                </div >
+                  <div >
+                    <ul className="form-info">
+                      <li>
+                        <div className="form1">
+                            <button className= "features-button">Features</button>
+                          <div className="form-text">
+                            <h3>Barcode</h3>
+                            <p>Real-time scanning of product barcodes to retrieve 
+                               detailed nutritional and allergen information.
+                            </p>
+                          </div>
+
+                        </div>
+                      </li>
+                      <li>
+                        <div className="form2">
+                              <button className= "features-button">Features</button>
+                          <div className="form-text">
+                            <h3>Dietary Profile</h3>
+                            <p>Customize your dietary needs and restrictions for personalized 
+                               product recommendations and allergen alerts.
+                            </p>
+                          </div>
+
+                        </div>
+                      </li>
+                      <li>
+                        <div className="form3">
+                              <button className= "features-button">Features</button>
+                            <div className="form-text">
+                              <h3>Healthy Shopping Tips</h3>
+                              <p>Essential Tips for Navigating Food Allergies and 
+                                 Making Healthy Choices.
+                              </p>
+                            </div>
+                          
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+        <div className="how-scan-container">
+          
+        
         <div className="how-scan-text">
-          <div>
-            <ul className="how-scan-info">
-              <li>
-                <div className="how-scan-info1">
-                  <div>
-                    <img src={barcode2} alt="barcode-icon" />
-                  </div>
-                  <div>
-                    <h3>Barcode Scanning</h3>
-                    <p>The app scans barcodes to retrieve nutritional info, ingredients, and allergen alerts.</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="how-scan-info2">
-                  <img src={spoonfork} alt="nutrition-icon" />
-                  <h3>Nutritional Breakdown</h3>
-                  <p>provides nutritional details after a barcode scan to aid dietary choices.</p>
-                </div>
-              </li>
-              <li>
-                <div className="how-scan-info3">
-                  <img src={search} alt="search-icon" />
-                  <h3>Allergen Detection</h3>
-                  <p> alerts users to allergens by identifying harmful ingredients based on dietary restrictions.</p>
-                </div>
-              </li>
-            </ul>
-          </div>
+              <div>
+                <h2 >How the Scanner works</h2>
+                <ul className="how-scan-info">
+                  <li>
+                    <div className="how-scan-info1">
+
+                        <img src={barcode2} alt="barcode-icon" />
+
+                      <div className="scanner-text">
+                        <h3>Barcode Scanning</h3>
+                        <p>The app scans barcodes to retrieve nutritional info, ingredients, and allergen alerts.</p>
+                      </div>
+
+                    </div>
+                  </li>
+                  <li>
+                    <div className="how-scan-info2">
+
+                        <img src={spoonfork} alt="nutrition-icon" />
+
+                      <div className="scanner-text">
+                        <h3>Nutritional Breakdown</h3>
+                        <p>provides nutritional details after a barcode scan to aid dietary choices.</p>
+                      </div>
+                     
+                    </div>
+                  </li>
+                  <li>
+                    <div className="how-scan-info3">
+                        <img src={search} alt="search-icon" />
+                    
+                      <div className="scanner-text">
+                        <h3>Allergen Detection</h3>
+                        <p> alerts users to allergens by identifying harmful ingredients based on dietary restrictions.</p>
+                      </div>
+                      
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+        </div>
           <div className="how-scan-image">
             <img src={howScan} alt="image" />
-        </div>
-        </div>
-
+          </div>
       </div>
 
       <div className="healty-shopping-tips-container">
         <div className="healty-shopping-tips-text">
           <h2>Healthy shopping tips from reputable sources</h2>
           <p>
-            "The food you eat can be either the safest and most powerful form of
-            medicine or the slowest form of poison" - Ann Wigmore
+            Find expert-backed tips to make smarter, healthier shopping choices, prioritize your well-being, <br/>
+             and shop with confidence.
           </p>
         </div>
+
         <div>
           <ul className="form-info-healty-tips">
             <li>
               <div className="form-info-healty-tips-left">
-                <img src={ann} alt="Ann" />
                 <h3>Ann Wigmore</h3>
                 <p>
                   founded the Ann Wigmore Natural<br/>
@@ -379,9 +397,9 @@ const LandingPage = () => {
       </div>
 
       <div className="shop-smart-container">
-      <div className="shopsmart-image-container">
-              <img src={shopsmart} alt="ShopSmart" />
-          </div>
+        <div className="shopsmart-image-container">
+          <img src={shopsmart} alt="ShopSmart" />
+        </div>
       <div className="shop-smart-text">
           <h2>Shop Smart Now</h2>
           <button className="get-started-button" 
