@@ -19,7 +19,13 @@ const Sidebar = () => {
         <h2 className="website-name">Barcode Health</h2>
       </div>
 
+      <div className="menu">
+        <p>Menu</p>
+      </div>
+
       {/* Navigation Links */}
+      <hr className="custom-hr"/>
+
       <ul>
         <li>
           <NavLink

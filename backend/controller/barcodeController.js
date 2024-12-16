@@ -13,7 +13,8 @@ SELECT
     ni.calories,
     GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
     GROUP_CONCAT(DISTINCT n.nutrient_name ORDER BY n.nutrient_name) AS nutrients,
-    GROUP_CONCAT(DISTINCT nin.quantity ORDER BY nin.nutrient_id) AS nutrient_quantities
+    GROUP_CONCAT(DISTINCT nin.quantity ORDER BY nin.nutrient_id) AS nutrient_quantities,
+    NOW() AS current_datetime 
 FROM 
     PRODUCTS p
 INNER JOIN 
@@ -24,9 +25,10 @@ LEFT JOIN
     NUTRIENT n ON nin.nutrient_id = n.nutrient_id
 LEFT JOIN 
     ALLERGENS a ON ni.allergen_id = a.allergen_id
-WHERE barcode_num = ${barcode}
+WHERE p.barcode_num = ${barcode}
 GROUP BY 
     p.product_id, p.product_name, p.barcode_num, p.price, ni.ingredients, ni.calories;
+
   `;
   
   con.query(query, [barcode], (err, results) => {
@@ -63,11 +65,20 @@ export const addToRecentScans = (req, res) => {
     console.log(req.query);
   
     const query = `
-      SELECT p.product_name, p.barcode_num, rs.scan_date
-      FROM RECENT_SCANS rs
-      INNER JOIN PRODUCTS p ON rs.product_id = p.product_id
-	    WHERE user_id = ?
-      ORDER BY rs.scan_date DESC;
+SELECT 
+    p.product_name, 
+    p.barcode_num, 
+    rs.scan_date,
+    p.price,
+    DATE_FORMAT(CURDATE(), '%M %d, %Y') AS formatted_date
+FROM 
+    RECENT_SCANS rs
+INNER JOIN 
+    PRODUCTS p ON rs.product_id = p.product_id
+WHERE 
+    rs.user_id = ?
+ORDER BY 
+    rs.scan_date DESC;
     `;
   
     con.query(query, [user_id], (err, results) => {

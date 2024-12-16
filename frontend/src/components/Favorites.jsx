@@ -4,6 +4,7 @@ import axios from 'axios'; // For API requests
 import { FaStar, FaChevronDown } from 'react-icons/fa';
 import '../styles/Favorites.css';
 import dadi from '../assets/dadi.jpg';
+import moment from 'moment';
 
 const Favorites = () => {
   const navigate = useNavigate();
@@ -14,8 +15,15 @@ const Favorites = () => {
   const [showConfirmPopup, setShowConfirmPopup] = useState(false); // Manage the confirmation popup visibility
   const [productToRemove, setProductToRemove] = useState(null); // Track the product being removed
 
-  const [username] = useState(localStorage.getItem('username' || "error"));
   const user_id = localStorage.getItem('user_id');
+
+  const formatDate = (dateString) => {
+    return moment(dateString).format('MMMM D, YYYY'); 
+  };
+
+  const handleViewInfoClick = (barcode) => {
+    navigate(`/barcode/${barcode}`, { state: { barcode } });
+  };
 
   // Fetch favorites from the backend
   useEffect(() => {
@@ -45,11 +53,6 @@ const Favorites = () => {
       fetchProductDetails();
     }
   }, [selectedProduct]);
-
-  const handleCardClick = (product, event) => {
-    event.stopPropagation();
-    setSelectedProduct(product);
-  };
 
   const handleClosePopup = () => {
     setSelectedProduct(null);
@@ -94,37 +97,48 @@ const Favorites = () => {
 
   return (
     <div className="favorites">
-      <div className="small-card-user-container" onClick={() => navigate('/dietaryprofile')}>
-        <img
-          src={dadi}
-          alt="User Avatar"
-          className="user-avatar-small-card"
-        />
-        <div className="user-info-small-card">
-          <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">{username}</p>
-        </div>
-        <FaChevronDown color="gray" className="arrow-down" />
-      </div>
-
       <div className="favorites-user-container">
-        <h3 className="saved-products-title">Saved Products</h3>
-        <div className="product-grid">
-          {favorites.length === 0 ? (
-            <p>No favorite products found.</p>
-          ) : (
-            favorites.map((product) => (
-              <div key={product.product_id} className="product-card" onClick={(event) => handleCardClick(product, event)}>
-                <div className="product-card-body">
-                  <span className="product-name">{product.product_name}</span>
-                  {/* Star icon, click triggers removal */}
-                  <FaStar 
-                    className="star-icon" 
-                    onClick={(event) => handleStarClick(product, event)} 
-                  />
+        <div className="favorites-header">
+          <h3 className="saved-products-title">Saved Products</h3>
+        </div>
+
+        <hr className="custom-hr" />
+
+        <div className="favorites-scan-records-container">
+          {Array.isArray(favorites) && favorites.length > 0 ? (
+            favorites.map((record, index) => (
+              <div
+                key={index}
+                className={`table-favorites-row ${
+                  record.allergen_status === "Detected" ? "allergy-detected" : ""
+                }`}
+              >
+                <div className="table-favorites-item">{record.product_name}</div>
+                <div className="table-favorites-item">Php {record.price}</div>
+                <div className="table-favorites-item">{record.barcode_num}</div>
+                <div
+                  className={`table-favorites-item-stats ${
+                    record.allergen_status === "Detected" ? "allergy-detected" : "safe"
+                  }`}
+                >
+                  {record.allergen_status === "Detected" ? "Allergy Detected" : "Safe"}
                 </div>
+                <div className="table-favorites-item-bold">
+                  <button
+                    onClick={() => handleViewInfoClick(record.barcode_num)}
+                    className="view-favorite-info-btn"
+                  >
+                    Product Info
+                  </button>
+                </div>
+                <FaStar 
+                    className="star-icon" 
+                    onClick={(event) => handleStarClick(record, event)} 
+                  />
               </div>
             ))
+          ) : (
+            <div>No favorite products found.</div>
           )}
         </div>
       </div>
@@ -134,11 +148,24 @@ const Favorites = () => {
         <div className="product-detail-popup">
           <div className="popup-content">
             <h4>{selectedProduct.product_name}</h4>
-            <p><strong>Price: </strong> Php {selectedProduct.price}</p>
-            <p><strong>Ingredients:</strong> {selectedProduct.ingredients}</p>
-            <p><strong>Allergens:</strong> {selectedProduct.allergens}</p>
-            <p><strong>Barcode:</strong> {selectedProduct.barcode_num}</p>
-            <button onClick={handleClosePopup}>Close</button>
+            <p>
+              <strong>Price: </strong> Php {selectedProduct.price}
+            </p>
+            <p>
+              <strong>Ingredients:</strong> {selectedProduct.ingredients}
+            </p>
+            <p>
+              <strong>Allergens:</strong> {selectedProduct.allergens}
+            </p>
+            <p>
+              <strong>Barcode:</strong> {selectedProduct.barcode_num}
+            </p>
+            <button
+              onClick={() => handleViewInfoClick(selectedProduct.barcode_num)}
+              className="view-info-btn"
+            >
+              View Info
+            </button>
           </div>
         </div>
       )}

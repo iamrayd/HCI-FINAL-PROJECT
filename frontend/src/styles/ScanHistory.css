@@ -2,67 +2,94 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 .scan-history {
-    background-color: #ffffff;
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;   
-    padding: 20px;
-    padding-top: 3%; 
+    align-items: center;
+    background-color: #ffffff;
+    position: relative;
+    height: 870px;
+    width: auto;
+    padding:20px;
+    border: 1px black;
+    border-radius: 25px;
+    margin: 20px 20px 20px 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .scan-history-container {
     border: none;
-    width: 90%;
-    height: 80%;
+    width: 100%;
+    height: auto;
     background-color: #ffffff;
-    padding: 20px;
-    align-self: center;
-    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 30px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.scan-history-header {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 2.5rem;
+    padding: 0 0 0 50px;
+    margin: 0 20px;
+    color: #071952;
+    width: 100%;
 }
 
 .scan-history-container h2 {
-    color: rgba(73, 69, 79, 0.8)
+    color: rgba(73, 69, 79, 0.8);
+    width: 100%;
 }
 
 .scan-history-categories {
     display: flex;
-    margin-bottom: 20px;
+    justify-content: flex-start;
+    padding: 0 0 0 70px;
+    gap: 50px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-/* Common styles for the buttons */
 .category-btn {
+    font-size: 1.5rem;
     margin-right: 10px;
-    border-radius: 20px;
     background-color: #ffffff;
-    color: #000000;
-    border: 2px solid rgb(94, 94, 94, 0.5);
+    color: gray;
+    border: transparent;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     padding: 10px 30px;
+    border-radius: 0;
 }
 
 .category-btn:hover {
-    background-color: #dcdcdc;
-    border-color: #dcdcdc;
+    border-bottom: 2px solid #007BFE;
+    outline: #ffffff;
 }
 
-.category-btn.active {
-    background-color: #dcdcdc; /* Keeps the button in hover state */
-    font-weight: bold;  /* Optional: Add bold for active button */
-    border-color: #dcdcdc;
+.category-btn:active {
+    color: #007BFE; 
+    border-bottom: 2px solid #007BFE;
+}
+
+.category-btn:focus {
+    color: #007BFE; 
+    border-bottom: 2px solid #007BFE;
+    outline: none;
 }
 
 
 .all-history-scan-records-container {
-    max-height: 500px; 
-    overflow-y: auto;
-    border: 1px solid #ccc;
+    color: black;
+    width: 100%;
+    max-width: 1400px;
+    height: 700px;
     margin-top: 10px;
-    background-color: #ffffff;
-    border: 2px solid black;
-    border-radius: 20px;
-    width: 900px;
+
 }
 
 .table-header {
@@ -71,6 +98,7 @@
     margin-bottom: 10px;
     border-bottom: 2px solid #ddd;
     color: #49454FE5;
+    
 }
 
 .table-header-item {
@@ -79,28 +107,46 @@
     text-align: center;
     font-size: 18px;
     font-family: 'Geologica', sans-serif;
+    
 }
 
 .table-row {
     display: flex;
+    padding: 10px 15px;
     margin-bottom: 10px;
+    border-radius: 15px;
     align-items: center;
+    background-color: #f4f4f4;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .table-item {
     flex: 1;
-    padding: 10px;
+    font-size: 1.15rem !important;
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Outfit', sans-serif;
+    color: gray;
+}
+
+.table-item-date {
+    flex: 1;
+    font-size: 1rem !important;
+    padding: 5px;
     text-align: center;
     font-size: 14px;
     font-family: 'Outfit', sans-serif;
     color: black;
+    font-weight: bold;
 }
 
 .table-item-stats {
     flex: 1;
     padding: 10px;
     text-align: center;
-    font-size: 14px;
+    font-size: 1.25rem;
     font-family: 'Outfit', sans-serif;
     color: black;
 }
@@ -120,7 +166,7 @@
 }
 
 .allergy-detected {
-    background-color: rgba(255, 167, 141, 0.5);
+    background-color: #F0D2D2;
     color: black;
     cursor: pointer;
 }
@@ -152,4 +198,8 @@
 
 .view-info-btn:focus {
     outline: none;
+}
+
+.category-btn.focus, .category-btn.focus-visible  {
+    outline: none !important;
 }

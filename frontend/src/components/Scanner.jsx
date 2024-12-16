@@ -118,27 +118,22 @@ const Scanner = () => {
 
   return (
     <div className="scan-section">
-      <div className="small-card-user-container" onClick={() => navigate('/dietaryprofile')}>
-        <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
-        <div className="user-info-small-card">
-          <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">{username}</p>
-        </div>
-        <FaChevronDown color="gray" className="arrow-down" />
+      <div className="scan-header">
+        <h5>Discover More by scanning your food. Eat healthy for a healthy living</h5>
       </div>
-
       <div className="scan-title">
-        <h2>Scan product here <span><FaArrowDown /></span></h2>
+        <h2>Scan the product</h2>
       </div>
 
       <div className="scan-container">
         <video
           ref={videoRef}
-          style={{ width: '100%', height: '400px', borderRadius: '10px' }}  
+          style={{ width: '850px', height: '550px', borderRadius: '10px' }}  
           autoPlay
           muted
         />
-        <div className="scan-buttons">
+      </div>
+      <div className="scan-buttons">
           <button 
             onClick={startScanning} 
             className="scan-button-start" 
@@ -154,7 +149,6 @@ const Scanner = () => {
             Stop Scanning
           </button>
         </div>
-      </div>
     </div>
   );
 };

@@ -1,241 +1,246 @@
 /* Container */
 .barcode-con {
-display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  background-color: rgb(255, 255, 255);
-  height: 1000px;
-  width: auto;
-  padding:20px;
-  padding-top: 3%;
-  position: relative;
-}
-
-.food-label-container {
-    width: 900px;
-    margin: auto;
-    padding: 30px;
-    border: 4px solid #ddd;
-    border-radius: 10px;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-    color: #333;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 80px;
-  }
-  
-  /* Top Row */
-  .top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .barcode {
-    font-size: 20px;
-    font-weight: bold;
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 25px;
-    padding: 30px;
-    color: rgba(0, 0, 0, 1);
-    width: 350px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    font-family: 'Geologica', sans-serif;
-  }
-  
-  .allergen-status {
-    font-size: 20px;
-    font-weight: bold;
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 25px;
-    padding: 30px;
-    color: rgba(0, 0, 0, 1);
-    width: 350px;
-    display: flex;
-    justify-content: center;
-    font-family: 'Geologica', sans-serif;
-  }
-  
-  .allergen-status.safe {
-    background-color: rgba(136, 194, 115, 0.3);
-    border: 3px solid rgba(136, 194, 115, 1);
-  }
-  
-  .allergen-status.warning {
-    background-color: #f8d7da;
-    border: 3px solid #923b44;
-  }
-  
-  /* Main Grid Layout */
-  .main-grid {
-    display: flex;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    flex-direction: row;
-    font-family: 'Geologica', sans-serif;
-  }
-
-  
-  .box {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #f8f8f8;
-    text-align: center;
-  }
-  
-  .box h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: rgba(7, 25, 82, 0.8);
-    border-bottom: 3px solid rgba(0, 0, 0, 0.3);
-  }
-  
-  .box p,
-  .box ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  
-  .box ul li {
-    text-align: left;
-    margin-bottom: 5px;
-  }
-  
-  /* Calories Special Style */
-  .calories {
-    grid-column: span 2;
-    text-align: center;
-    font-size: 24px;
-    background-color: #fff8dc;
-    width: 230px;
-    height: 120px;
-    background-color: rgba(240, 236, 218, 1);
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-  }
-  
-  /* Allergens Box */
-  .allergens {
-    text-align: center;
-    width: 230px;
-    height: 120px;
-    background-color: rgba(240, 236, 218, 1);
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-  }
-
-  .group1 {
-    display: flex;
+  display: flex;
     flex-direction: column;
-    gap: 21px;
-  }
-
-  .nutrients {
-    width: 260px;
-    background-color: rgba(240, 236, 218, 1);
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-  }
-
-  .nutrient-info {
-    width: 260px;
-    background-color: rgba(240, 236, 218, 1);
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-  }
-  
-  /* Ingredients Section */
-  .ingredients-section {
-    margin-bottom: 10px;
-    padding: 15px;
-    border: 3px solid rgba(0, 0, 0, 0.3);
-    border-radius: 30px;
-    background-color: rgba(255, 255, 255, 1);
-    font-family: 'Geologica', sans-serif;
-    height: 100px;
-  }
-  
-  .ingredients-section h3 {
-    margin-bottom: 10px;
-    justify-content: flex-start;
-    align-items: center;
-    display: flex;
-  }
-  
-  .ingredients-section p {
-    margin: 0;
-    font-size: 14px;
-    justify-content: flex-start;
-    align-items: center;
-    display: flex;
-  }
-  
-  .ingredients-section .star {
-    color: gold;
-    font-size: 40px;
-    justify-self: flex-end;
-    background-color: transparent;
-  }
-
-  .star {
     align-items: flex-end;
-    display: flex;
-    justify-content: center;
-    padding: 0px;
-    transform: translateY(-30%);
-    margin-right: 12px;
+    background-color: rgb(255, 255, 255);
+    height: 1000px;
+    width: auto;
+    padding:20px;
+    padding-top: 3%;
     position: relative;
   }
-
-  .star:focus {
-    outline: none;
-  }
-
-  .star:hover {
-    border-color: transparent;
-  }
   
-
-  .start-scan-button {
-    margin: 10px 0;
-  }
-
-  .error-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; 
-    height: 100vh; 
-    color: black;
-    text-align: center;
-
-  }
+  .food-label-container {
+      width: 900px;
+      margin: auto;
+      padding: 30px;
+      border: 4px solid #ddd;
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 80px;
+    }
+    
+    /* Top Row */
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .barcode {
+      font-size: 20px;
+      font-weight: bold;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      background-color: #071952;
+      border-radius: 25px;
+      padding: 30px;
+      color: #fefffe;
+      width: 350px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      font-family: 'Geologica', sans-serif;
+    }
+    
+    .allergen-status {
+      font-size: 20px;
+      font-weight: bold;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 25px;
+      padding: 30px;
+      color: rgba(0, 0, 0, 1);
+      width: 350px;
+      display: flex;
+      justify-content: center;
+      font-family: 'Geologica', sans-serif;
+    }
+    
+    .allergen-status.safe {
+      background-color: rgba(136, 194, 115, 0.3);
+      border: 3px solid rgba(136, 194, 115, 1);
+    }
+    
+    .allergen-status.warning {
+      background-color: #b32223;
+      color: #fefffe;
+      border: 3px solid #923b44;
+    }
+    
+    /* Main Grid Layout */
+    .main-grid {
+      display: flex;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      flex-direction: row;
+      font-family: 'Geologica', sans-serif;
+    }
   
-  .retry-button {
-    margin-top: 20px;
-    padding: 10px 20px; 
-    background-color: white; 
-    color: black; 
-    border: 2px solid white; 
-    border-radius: 5px;
-    font-size: 16px; 
-    cursor: pointer; 
-    border: 1px solid black;
-  }
+    
+    .box {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      background-color: #f8f8f8;
+      text-align: center;
+    }
+    
+    .box h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: rgba(7, 25, 82, 0.8);
+      border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    .box p,
+    .box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    .box ul li {
+      text-align: left;
+      margin-bottom: 5px;
+    }
+    
+    /* Calories Special Style */
+    .calories {
+      grid-column: span 2;
+      text-align: center;
+      font-size: 24px;
+      width: 230px;
+      height: 120px;
+      background-color: #EBF5F7;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+    }
+    
+    /* Allergens Box */
+    .allergens {
+      text-align: center;
+      width: 230px;
+      height: 120px;
+      background-color: #EBF5F7;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+    }
   
-  .retry-button:hover {
-    background-color: lightgray;
-  }
+    .group1 {
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+    }
+  
+    .nutrients {
+      width: 260px;
+      background-color: #EBF5F7;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+    }
+  
+    .nutrient-info {
+      width: 260px;
+      background-color: #EBF5F7;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+    }
+    
+    /* Ingredients Section */
+    .ingredients-section {
+      margin-bottom: 10px;
+      padding: 15px;
+      border: 3px solid rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+      background-color: #EBF5F7;
+      font-family: 'Geologica', sans-serif;
+      height: 100px;
+    }
+    
+    .ingredients-section h3 {
+      margin-bottom: 10px;
+      justify-content: flex-start;
+      align-items: center;
+      display: flex;
+    }
+    
+    .ingredients-section p {
+      margin: 0;
+      font-size: 14px;
+      justify-content: flex-start;
+      align-items: center;
+      display: flex;
+    }
+    
+    .ingredients-section .star {
+      color: gold;
+      font-size: 40px;
+      justify-self: flex-end;
+      background-color: transparent;
+    }
+  
+    .star {
+      align-items: flex-end;
+      display: flex;
+      justify-content: center;
+      padding: 0px;
+      transform: translateY(-30%);
+      margin-right: 12px;
+      position: relative;
+    }
+  
+    .star:focus {
+      outline: none;
+    }
+  
+    .star:hover {
+      border-color: transparent;
+    }
+    
+  
+    .start-scan-button {
+      margin: 10px 0;
+    }
+  
+    .error-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; 
+      height: 100vh; 
+      color: black;
+      text-align: center;
+  
+    }
+    
+    .retry-button {
+      margin-top: 20px;
+      padding: 10px 20px; 
+      background-color: #179B5D; 
+      color: #fefffe; 
+      border: 2px solid white; 
+      border-radius: 5px;
+      font-size: 16px; 
+      cursor: pointer; 
+      border: 1px solid black;
+    }
+    
+    .retry-button:hover {
+      background-color: lightgray;
+    }
 
-  .star-icon.filled {
-    color: yellow; 
-  }
+    .star-icon-scanner {
+      color: gray;
+    }
   
-  
+    .star-icon-scanner.filled {
+      color: yellow; 
+    }
+    
+    

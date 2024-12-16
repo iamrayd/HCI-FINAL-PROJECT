@@ -11,13 +11,12 @@ const Barcode = () => {
   const navigate = useNavigate();
 
   const user_id = localStorage.getItem('user_id');
-  
   const [product, setProduct] = useState({});
   const [userAllergens, setUserAllergens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [username] = useState(localStorage.getItem('username' || "error"));
-  const [isFavorite, setIsFavorite] = useState(false); // State to track favorite status
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // Fetch Product Details
   useEffect(() => {
@@ -37,6 +36,23 @@ const Barcode = () => {
     fetchProductDetails();
   }, [passedBarcode]);
 
+  // Check if product is already a favorite
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/users/favorites/${user_id}`);
+        const isFav = response.data.some(fav => fav.product_id === product.product_id);
+        setIsFavorite(isFav);
+      } catch (err) {
+        console.error("Error checking favorite status:", err);
+      }
+    };
+
+    if (product.product_id) {
+      checkFavoriteStatus();
+    }
+  }, [user_id, product.product_id]);
+
   useEffect(() => {
     const fetchUserAllergens = async () => {
       try {
@@ -54,6 +70,20 @@ const Barcode = () => {
     }
   }, [user_id]);
 
+  const handleFavoriteClick = async () => {
+    try {
+      {
+        await axios.post(`http://localhost:5000/api/users/favorites`, {
+          user_id, product_id: product.product_id
+        });
+        setIsFavorite(true);
+        alert("Added to favorites.");
+      }
+    } catch (err) {
+      console.error("Error updating favorites:", err);
+      alert("Failed to update favorites.");
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -71,20 +101,10 @@ const Barcode = () => {
     ? product.allergens
     : (product.allergens ? product.allergens.split(',') : []);
 
-  // Determine if the product contains any allergens from the user's list
   const containsAllergen = allergens.some(allergen => userAllergens.includes(allergen));
 
   return (
     <div className="barcode-con">
-      <div className="small-card-user-container" onClick={() => navigate('/dietaryprofile')}>
-        <img src={dadi} alt="User Avatar" className="user-avatar-small-card" />
-        <div className="user-info-small-card">
-          <p className="welcome-text-small-card">Welcome Back,</p>
-          <p className="username-small-card">{username}</p>
-        </div>
-        <FaChevronDown color="gray" className="arrow-down" />
-      </div>
-
       <div className="food-label-container">
         <div className="top-row">
           <div className="barcode">
@@ -117,7 +137,6 @@ const Barcode = () => {
               ))}
             </ul>
           </div>
-
           <div className="box nutrient-info">
             <h3>Nutrient Information</h3>
             <ul>
@@ -129,12 +148,11 @@ const Barcode = () => {
         <div className="ingredients-section">
           <h3>Ingredients</h3>
           <p>{product.ingredients}</p>
-          <button className="star" >
-            <FaStar className={`star-icon ${isFavorite ? 'filled' : ''}`} size={30} />
+          <button className="star" onClick={handleFavoriteClick}>
+            <FaStar className={`star-icon-scanner ${isFavorite ? 'filled' : ''}`} size={30} />
           </button>
         </div>
 
-        {/* Scan Again Button */}
         <div className="scan-again-container">
           <button onClick={() => navigate('/scanner')} className="retry-button">
             Scan Again

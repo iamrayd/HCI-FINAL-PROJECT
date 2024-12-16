@@ -1,89 +1,178 @@
 
 .dietary-profile-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 700px; 
   background-color: #ffffff;
-  margin: 0;
+  height: auto;
+  max-height: 2000px;
   width: auto;
+  padding: 30px;
+  position: relative;
+  border: 1px black;
+  border-radius: 25px;
+  margin: 20px 20px 20px 20px;
+  overflow-y: auto; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.dietary-profile {
-  margin-top: 100px;
-  height: 60%;
-  width: 70%;
+
+.dietary-profile-image {
+  width: 100%;
+  color: black;
+  max-width: 1440px;
+  height: 430px; 
   background-color: #fff;
   border-radius: 30px;
-  padding: 50px;
+  margin: 20px 10px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 0px solid rgba(128, 128, 128, .5);
-  box-shadow: 1px 6px 5px 5px rgba(121, 118, 118, 0.6); 
 }
 
-.profile-circle {
+.header-image {
+  width: 100%;
+  height: 300px;
+}
+
+.header-image img {
+  border-radius: 25px;
+  width: 100%;  
+  height: 100%; 
+}
+
+.profile-image {
   position: absolute;
-  top: -75px; 
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150px; 
-  height: 150px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 2px solid #000000; 
-  overflow: hidden;
+  bottom: 50px;
+  left: 50px;
+  width: 200px;  
+  height: 200px; 
+  border-radius: 50%; 
+  overflow: hidden; 
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.profile-avatar {
-  width: 220px; 
-  height: 150px; 
-  object-fit: cover;
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
 }
 
-.user-info {
-  text-align: center;
-  margin-top: 60px; 
-  padding: 0 50px; 
 
+.dietary-profile-personal {
+  width: 100%;
+  max-width: 1370px;
+  height: 100%; 
+  color: #000000;
+  border-radius: 30px;
+  margin: 20px;
+  padding: 10px 30px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(128, 128, 128, .5);
 }
 
-.user-info .username,
-.user-info .email {
-  margin: 5px 0;
-  display: block; 
+.personal-header {
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  max-width: 1400px;
 }
 
-.username {
-  font-weight: bold;
-  padding-bottom: 5px;
-  color: black;
-  font-size: 25px;
+.dietary-header{
+  color: #071952;
+  font-size: 1.25rem;
+  width: 100%;
 }
 
-.email {
-  font-size: 19px;
-  color: #666;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #ddd; 
+.personal-details h4 {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  color: gray;
+  margin: 10px 0;
+}
+
+
+
+.personal-details-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+}
+
+.personal-edit-btn {
+  background-color: #fff;
+  color: #000000;
+  height: 55px;
+  border: none;
+  padding: 5px 10px;
+}
+
+.edit-icon {
+  margin-right: 5px;
+}
+
+.name, .emailphone {
+  display: flex;
+  padding: 0;
+  gap: 350px;
+  margin: 10px 0;
+}
+
+.firstname, .email {
+  width: 100%;
+  max-width: 300px;
+}
+
+
+.allergen-edit-button {
+  background-color: #fff;
+  color: #000000;
+  height: 55px;
+  border: none;
+  padding: 5px 10px;
+}
+
+.allergen-edit-button:hover, .personal-edit-btn:hover {
+  border: none;
+  background-color: rgba(214, 209, 209, 0.699);
+  outline: transparent;
+}
+
+.allergen-edit-button:focus, .personal-edit-btn:focus {
+  border: none;
+  outline: transparent;
+}
+
+
+.allergen-profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #000000;
+}
+
+.user-allergen {
+  font-size: 1.25rem;
+  color: gray;
 }
 
 .dietary-allergies {
   margin-top: 50px; 
   padding: 30px;
   max-height: 200px; 
-  border: 3px solid rgba(128, 128, 128, .5);
   border-radius: 20px;
   overflow-y: hidden;
-  width: 750px;
+  width: 1370px;
   align-self: center;
-  box-shadow: 0 6px 2px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(128, 128, 128, .5);
 }
 
 .dietary-allergies h4 {
@@ -93,6 +182,8 @@
   align-items: center; 
   color: black;
 }
+
+
 
 .dietary-allergies h4 svg {
   font-size: 20px; 
@@ -115,25 +206,6 @@
   color: #333; 
 }
 
-/* Existing styles are retained, additions start here */
-
-/* Remove Button (X) */
-.remove-button {
-  background: none;
-  border: none;
-  color: rgb(0, 0, 0);
-  cursor: pointer;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0px; /* Adds spacing between allergy name and button */
-  padding: 0;
-}
-
-.remove-button svg {
-  font-size: 18px;
-}
 
 /* Allergy Item Wrapper */
 .allergy-item {
@@ -141,7 +213,7 @@
   align-items: center;
   padding: 0px 16px;
   border-radius: 20px;
-  background-color: #f0f0f0;
+  background-color: #2d2d2c;
   border: 1px solid #ddd;
   font-size: 14px;
   color: #333;
@@ -149,32 +221,72 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Confirmation Form */
+.allergies-list span {
+  background-color: transparent; 
+  padding: 5px 10px; 
+  border-radius: 20px;  
+  margin-top: 8px;
+  font-size: 14px;
+  color: #ffffff; 
+}
+
+
+.allergies-list {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px; 
+  color: #c3c2c2;
+}
+
+.allergy-item {
+  justify-content: space-between; 
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: #c3c2c2;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0px;
+  padding: 0;
+}
+
+.remove-button svg {
+  font-size: 18px;
+}
+
 .confirmation-form {
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.4);;
+  background-color: #f8f9fa;
   padding: 20px;
   border-radius: 10px;
-  background-color: #f8f9fa;
   border: 1px solid #ddd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  justify-self: center;
-  align-self: center;
 }
 
+
 .confirm-back {
-  width: 120%;
-  height: 100%;
-  z-index: 100;
-  top: 0;
-  justify-content: center;
-  align-self: center;
   display: flex;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
 }
+
 
 .confirmation-form h3 {
   margin-bottom: 10px;
@@ -208,39 +320,3 @@
   padding: 10px 20px;
   font-size: 14px;
 }
-
-.header-edit-group {
-  display: flex;
-  flex-direction: row;
-}
-
-.edit-button {
-  background-color: rgb(46, 45, 45);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 14px;
-  margin-bottom: 10px; /* Add spacing below the button */
-  align-self: center; /* Align to the start of the list */
-  margin-left: 550px;
-}
-
-.edit-button:focus {
-  outline: none;
-}
-
-/* Adjustments for Flexbox Layout */
-.allergies-list {
-  display: flex;
-  flex-wrap: wrap; /* Wrap items onto the next row */
-  gap: 10px; /* Spacing between allergy items */
-  color: #000000;
-}
-
-.allergy-item {
-  justify-content: space-between; /* Ensures the X button aligns to the right */
-}
-
-

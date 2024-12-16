@@ -1,36 +1,78 @@
 /* Main section for the scanning feature */
 .scan-section {
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  height: auto;
-  padding: 20px;
+  background-color: #ffffff;
+  height: 870px;
+  width: auto;
+  padding:20px;
   position: relative;
+  border: 1px black;
+  border-radius: 25px;
+  margin: 20px 20px 20px 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Scan container styling */
-.scan-container {
-  width: 600px;
-  height: 500px; /* Set a fixed height for the scan area */
-  border: 2px solid black;
-  border-radius: 10px;
-  margin-top: 20px;
-  padding: 10px;
-}
 
 /* Title above the scan container */
-.scan-title {
-  color: black;
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
+.scan-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  background: linear-gradient(to right, rgb(9, 27, 85), rgb(150, 70, 255));
+  width: 100%;
+  position: absolute; 
+  top: 0; 
+  left: 0;
 }
+
+.scan-header h5 {
+  font-family: 'Geologica', sans-serif;
+  text-transform: uppercase;
+}
+
+.scan-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  width: 100%;
+  color: #1c3481;
+  margin: 70px 20px 0 0;
+}
+
+.scan-container {
+  width: 850px;
+  height: 550px; 
+  border-radius: 25px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
 
 .scan-buttons {
   display: flex;
   justify-content: center;
-  padding: 10px;
-  gap: 50px;
+  align-items: center;
+  gap: 15px;
+
+}
+
+.scan-button-start,
+.scan-button-stop {
+  background-color: #1c3481;
+  color: white;
+  display: flex;
+  justify-content: center;
+  background-color: #1c3481;
+  color: white;
+  padding: 15px;
+  margin: 50px 20px 20px 20px;
+  width: 450px;
+  border-radius: 15px;
 }
 
 

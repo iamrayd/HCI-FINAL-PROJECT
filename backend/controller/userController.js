@@ -1,5 +1,28 @@
 import con from '../config/database.js';
 
+export const getUserInfo = (req, res) => {
+  const { user_id } = req.params; 
+
+  const query = `
+    SELECT firstname, lastname, email 
+    FROM USERS 
+    WHERE user_id = ${user_id};
+  `;
+
+  con.query(query, [user_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching user information:", err);
+      return res.status(500).json({ message: 'Error fetching user information' });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(result[0]); 
+  });
+};
+
 export const checkEmail = (req, res) => {
   const { email } = req.body;
   const query = 'SELECT * FROM USERS WHERE email = ?';

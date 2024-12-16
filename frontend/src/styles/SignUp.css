@@ -142,7 +142,7 @@
 }
 
 .signup-input-container select {
-  width: 200px;
+  width: 250px;
   padding: 10px 10px 10px 35px; 
   font-size: 0.85rem;
   border: 2px solid #ccc;
@@ -187,19 +187,20 @@
   padding: 10px;
   font-size: 1rem;
   border: none;
-  background-color: rgb(190, 190, 190);
-  color: black;
+  background-color: #1C3481;
+  color: white;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 1rem;
-  box-shadow:rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   width: 70%;
   align-self: center;
 }
 
 .signup-btn2:hover {
-  background-color: white;
   color: black;
+  border-color: transparent;
+  background-color: transparent;
 }
 
 .signup-divider {

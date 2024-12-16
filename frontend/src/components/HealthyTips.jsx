@@ -66,18 +66,6 @@ const HealthyTips = () => {
       };
     return (
         <div className="healthy-tips">
-            <div className="small-card-user-container" onClick={handleCardClick}>
-                <img
-                src={dadi} 
-                alt="User Avatar"
-                className="user-avatar-small-card"
-                />
-                <div className="user-info-small-card">
-                <p className="welcome-text-small-card">Welcome Back,</p>
-                <p className="username-small-card">John Doe</p>
-                </div>
-                <FaChevronDown color="gray" className="arrow-down"/>
-            </div>
 
             <div className="healthy-tips-container">
                 <div 
