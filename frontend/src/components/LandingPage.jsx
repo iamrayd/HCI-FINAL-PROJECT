@@ -376,20 +376,16 @@ const LandingPage = () => {
             <li>
               <div className="form-info-healty-tips-right">
                 <h2>
-                  "There is no single food that<br/>
-                  contains all the nutrients that<br/>
-                  our body needs so eating a<br/>
-                  variety of food ensures that<br/> 
-                  daily nutritional needs are<br/>
-                  met."
+                  Every thought has the power to bring<br/>
+                  into being the visible from the<br/>
+                  invisible. It is abolutely necessary for<br/>
+                  us all to understand that everything<br/> 
+                  we think, do or say comes back to us.<br/>
+                  Every though, word or action-<br/>
+                  without execption- manifests itself<br/>
+                  [in someway] as an actual reality.
                 </h2>
-                <div className="dost-container">
-                <img src={dostlogo} alt="Dostlogo" />
-                <p>
-                  DOST - Food and Nutrition<br/>
-                  Research Institute
-                </p>
-                </div>
+
               </div>
             </li>
           </ul>

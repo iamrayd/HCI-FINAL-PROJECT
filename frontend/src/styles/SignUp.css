@@ -128,11 +128,10 @@
   color: black;
 }
 
-.signup-input-container input,
-.signup-input-container select {
-  width: 150px;
-  padding: 10px 10px 10px 35px; /* Add padding to avoid overlapping with the icon */
-  font-size: 14px;
+.signup-input-container input {
+  width: 200px;
+  padding: 10px 10px 10px 35px; 
+  font-size: 0.85rem;
   border: 2px solid #ccc;
   border-radius: 13px;
   background-color: transparent;
@@ -143,7 +142,16 @@
 }
 
 .signup-input-container select {
-  width: 195px;
+  width: 200px;
+  padding: 10px 10px 10px 35px; 
+  font-size: 0.85rem;
+  border: 2px solid #ccc;
+  border-radius: 13px;
+  background-color: transparent;
+  color: rgba(7, 25, 82, 0.58);
+  font-family: 'Geologica', sans-serif;
+  color: black;
+  outline: none;
 }
 
 .password-toggle-icon2 {
