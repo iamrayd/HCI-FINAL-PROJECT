@@ -8,6 +8,75 @@ SELECT * FROM products;
 SELECT * FROM nutrient;
 SELECT * FROM nutritional_info;
 SELECT * FROM nutritional_info_nutrient;
+SELECT * FROM user_favorites;
+SELECT * FROM recent_scans;
+
+SELECT 
+    p.product_id,
+    p.product_name,
+    p.barcode_num,
+    p.price,
+    ni.ingredients,
+    ni.calories,
+    GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+    GROUP_CONCAT(DISTINCT n.nutrient_name ORDER BY n.nutrient_name) AS nutrients,
+    GROUP_CONCAT(DISTINCT nin.quantity ORDER BY nin.nutrient_id) AS nutrient_quantities,
+    NOW() AS current_datetime -- Generates the current date and time
+FROM 
+    PRODUCTS p
+INNER JOIN 
+    NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+LEFT JOIN 
+    NUTRITIONAL_INFO_NUTRIENT nin ON ni.nutritional_info_id = nin.nutritional_info_id
+LEFT JOIN 
+    NUTRIENT n ON nin.nutrient_id = n.nutrient_id
+LEFT JOIN 
+    ALLERGENS a ON ni.allergen_id = a.allergen_id
+WHERE p.barcode_num = "1346201379644"
+GROUP BY 
+    p.product_id, p.product_name, p.barcode_num, p.price, ni.ingredients, ni.calories;
+
+SELECT 
+    p.product_name, 
+    p.barcode_num, 
+    rs.scan_date,
+    p.price,
+    DATE_FORMAT(CURDATE(), '%M %d, %Y') AS formatted_date
+FROM 
+    RECENT_SCANS rs
+INNER JOIN 
+    PRODUCTS p ON rs.product_id = p.product_id
+WHERE 
+    rs.user_id = 17  -- Replace ? with an actual user_id value
+ORDER BY 
+    rs.scan_date DESC;
+
+-- 
+SELECT 
+    u.user_id, 
+    u.firstname, 
+    u.lastname, 
+    a.allergen_name
+FROM USERS u
+JOIN USER_ALLERGENS ua ON u.user_id = ua.user_id
+JOIN ALLERGENS a ON ua.allergen_id = a.allergen_id;
+
+    
+ SELECT 
+  p.product_id, 
+  p.product_name, 
+  p.barcode_num, 
+  p.price, 
+  MAX(ni.ingredients) AS ingredients,  -- Use MAX() to avoid non-aggregated field error
+  GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens
+FROM scan_history sh
+JOIN PRODUCTS p ON sh.product_id = p.product_id
+LEFT JOIN nutritional_info ni ON p.product_id = ni.product_id
+LEFT JOIN ALLERGENS a ON a.allergen_id = ni.allergen_id  -- Join allergen data
+WHERE sh.user_id = 17
+GROUP BY p.product_id;
+
+
 
 
 CREATE TABLE SCAN_HISTORY (
@@ -19,8 +88,103 @@ CREATE TABLE SCAN_HISTORY (
     FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
 );
 
+SELECT * FROM SCAN_HISTORY;
+
+        SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = 17
+    GROUP BY 
+      p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+
 -- INSERT INTO SCAN_HISTORY (user_id, product_id) VALUES (?, ?);
 -- SELECT * FROM SCAN_HISTORY WHERE user_id = ? ORDER BY scan_date DESC;
+
+-- QUERY FOR scanhistory
+
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      CASE
+        WHEN EXISTS (
+          SELECT 1
+          FROM USER_ALLERGENS ua
+          WHERE ua.user_id = rs.user_id
+          AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+        ) THEN 'Detected'
+        ELSE 'Safe'
+      END AS allergen_status
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = 2
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients
+    ORDER BY 5;
+  
+  
+  -- safe
+  
+      SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      'Safe' AS allergen_status
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = 14
+    AND NOT EXISTS (
+      SELECT 1
+      FROM USER_ALLERGENS ua
+      WHERE ua.user_id = rs.user_id
+      AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+    )
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+
+-- detected
+
+SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens,
+      'Detected' AS allergen_status
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = 14
+    AND EXISTS (
+      SELECT 1
+      FROM USER_ALLERGENS ua
+      WHERE ua.user_id = rs.user_id
+      AND ua.allergen_id IN (SELECT allergen_id FROM NUTRITIONAL_INFO ni2 WHERE ni2.product_id = p.product_id)
+    )
+    GROUP BY p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+
 
 CREATE TABLE USER_FAVORITES (
     user_id INT NOT NULL,
@@ -29,6 +193,26 @@ CREATE TABLE USER_FAVORITES (
     FOREIGN KEY (user_id) REFERENCES USERS(user_id),
     FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
 );
+
+SELECT * FROM USER_FAVORITES;
+DELETE FROM USER_FAVORITES;
+TRUNCATE TABLE USER_FAVORITES;
+
+INSERT INTO USER_FAVORITES (user_id, product_id)
+VALUES 
+	(19, 8),
+	(19, 7),
+	(19, 16),
+	(19, 5),
+	(19, 2),
+	(19, 1);
+
+
+
+    SELECT p.product_id, p.product_name
+    FROM USER_FAVORITES uf
+    JOIN PRODUCTS p ON uf.product_id = p.product_id
+    WHERE uf.user_id = 3;
 
 -- SELECT * FROM USER_FAVORITES WHERE user_id = ?;
 
@@ -40,6 +224,56 @@ CREATE TABLE RECENT_SCANS (
     FOREIGN KEY (user_id) REFERENCES USERS(user_id),
     FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
 );
+
+      SELECT p.product_name, p.barcode_num, rs.scan_date
+      FROM RECENT_SCANS rs
+      INNER JOIN PRODUCTS p ON rs.product_id = p.product_id
+	  WHERE user_id = 14
+      ORDER BY rs.scan_date DESC;
+
+
+    SELECT a.allergen_name
+    FROM USER_ALLERGENS ua
+    JOIN ALLERGENS a ON ua.allergen_id = a.allergen_id
+    WHERE ua.user_id = 14;
+
+DROP TABLE RECENT_SCANS;
+
+
+SELECT * FROM RECENT_SCANS;
+DELETE FROM RECENT_SCANS;
+TRUNCATE TABLE RECENT_SCANS;
+
+      SELECT p.product_name, p.barcode_num, rs.scan_date
+      FROM RECENT_SCANS rs
+      INNER JOIN PRODUCTS p ON rs.product_id = p.product_id
+      ORDER BY rs.scan_date DESC;
+     
+
+
+SELECT DISTINCT p.product_name
+FROM PRODUCTS p
+JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+JOIN USER_ALLERGENS ua ON ua.user_id = 14
+WHERE ni.allergen_id = ua.allergen_id;
+
+
+
+
+INSERT INTO RECENT_SCANS (user_id, product_id, scan_date) 
+VALUES (19, 4, '2024-12-07 12:00:00'),
+ (19, 8, '2024-12-07 12:00:00'),
+ (19, 5, '2024-12-07 12:00:00');
+
+
+
+      SELECT p.product_name, p.barcode_num, rs.scan_date
+      FROM RECENT_SCANS rs
+      INNER JOIN PRODUCTS p ON rs.product_id = p.product_id
+      ORDER BY rs.scan_date DESC; 
+
+    
+    DESCRIBE RECENT_SCANS;
 
 -- SELECT * FROM RECENT_SCANS WHERE user_id = ? ORDER BY scan_date DESC LIMIT 10;
 
@@ -55,6 +289,11 @@ CREATE TABLE USERS(
  username VARCHAR(50),
  CHECK (gender IN ('M', 'F')) 
 );
+
+    SELECT firstname, lastname, email 
+    FROM USERS 
+    WHERE user_id = 19;
+    
 DROP TABLE USER_ALLERGENS;
 DROP TABLE USERS;
 DROP TABLE USER_FAVORITES;
@@ -78,6 +317,20 @@ CREATE TABLE USER_ALLERGENS(
     FOREIGN KEY (allergen_id) REFERENCES ALLERGENS (allergen_id),
     FOREIGN KEY (user_id) REFERENCES USERS (user_id)
 );
+
+    SELECT a.allergen_name
+    FROM USER_ALLERGENS ua
+    JOIN ALLERGENS a ON ua.allergen_id = a.allergen_id
+    WHERE ua.user_id = 13;
+    
+        DELETE FROM USER_ALLERGENS 
+    WHERE user_id = 1 AND allergen_id = (
+      SELECT allergen_id FROM ALLERGENS WHERE allergen_name = "milk" LIMIT 1
+    );
+    
+SELECT * FROM USER_ALLERGENS;
+SELECT * FROM ALLERGENS;
+SELECT * FROM USERS;
 
 CREATE TABLE USERS(
  user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -132,18 +385,78 @@ scanDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- obviously this part has
 
 SELECT * FROM PRODUCTS;
 
- INSERT INTO PRODUCTS (barcode_num, product_name, price)
+    SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      rs.scan_date AS date,
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens
+    FROM RECENT_SCANS rs
+    JOIN PRODUCTS p ON rs.product_id = p.product_id
+    LEFT JOIN NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE rs.user_id = 14
+    GROUP BY 
+      p.product_id, p.product_name, p.barcode_num, p.price, rs.scan_date, ni.ingredients;
+
+UPDATE PRODUCTS
+SET barcode_num = '9780201379600'
+WHERE barcode_num = '1234567890123';
+
+UPDATE PRODUCTS
+SET barcode_num = '1346201379644'
+WHERE barcode_num = '987654321098';
+
+UPDATE PRODUCTS
+SET barcode_num = '2857291437422'
+WHERE barcode_num = '234567890123';
+
+UPDATE PRODUCTS
+SET barcode_num = '6294714805264'
+WHERE barcode_num = '345678901234';
+
+UPDATE PRODUCTS
+SET barcode_num = '5138462047525'
+WHERE barcode_num = '456789012345';
+
+UPDATE PRODUCTS
+SET barcode_num = '4082610402470'
+WHERE barcode_num = '567890123456';
+
+UPDATE PRODUCTS
+SET barcode_num = '3074291483092'
+WHERE barcode_num = '678901234567';
+
+UPDATE PRODUCTS
+SET barcode_num = '7092394074388'
+WHERE barcode_num = '789012345678';
+
+UPDATE PRODUCTS
+SET barcode_num = '8128404758272'
+WHERE barcode_num = '890123456789';
+
+UPDATE PRODUCTS
+SET barcode_num = '2903819405791'
+WHERE barcode_num = '901234567890';
+
+
+
+INSERT INTO PRODUCTS (barcode_num, product_name, price)
 VALUES
-('123456789012', 'Canned Tuna in Olive Oil', 2.99),
-('987654321098', 'Instant Ramen Noodles', 1.49),
-('234567890123', 'Frozen Pizza Margherita', 5.99),
-('345678901234', 'Canned Baked Beans', 3.49),
-('456789012345', 'Ready-to-eat Grilled Chicken', 7.99),
-('567890123456', 'Packaged French Fries', 4.29),
-('678901234567', 'Instant Oatmeal Pouch', 2.59),
-('789012345678', 'Processed Cheese Slices', 3.89),
-('890123456789', 'Frozen Vegetable Mix', 4.49),
-('901234567890', 'Canned Sweet Corn', 2.19);
+('0123456789012', 'Canned Tuna in Olive Oil', 2.99),
+('0987654321098', 'Instant Ramen Noodles', 1.49),
+('0234567890123', 'Frozen Pizza Margherita', 5.99),
+('0345678901234', 'Canned Baked Beans', 3.49),
+('0456789012345', 'Ready-to-eat Grilled Chicken', 7.99),
+('0567890123456', 'Packaged French Fries', 4.29),
+('0678901234567', 'Instant Oatmeal Pouch', 2.59),
+('0789012345678', 'Processed Cheese Slices', 3.89),
+('0890123456789', 'Frozen Vegetable Mix', 4.49),
+('0901234567890', 'Canned Sweet Corn', 2.19);
+
+SELECT * FROM PRODUCTS;
 
 
 CREATE TABLE NUTRITIONAL_INFO(
@@ -583,5 +896,36 @@ LEFT JOIN
     ALLERGENS a ON ni.allergen_id = a.allergen_id
 WHERE barcode_num = "123456789012"
 GROUP BY 
+    p.product_id, p.product_name, p.barcode_num, p.price, ni.ingredients, ni.calories;
+    
+    
+    
+    
+    INSERT INTO USER_FAVORITES (user_id, product_id)
+    VALUES (19, 4)
+    ON DUPLICATE KEY UPDATE product_id = product_id;  
+    
+    -- get favorites
+        SELECT 
+      p.product_id, 
+      p.product_name, 
+      p.barcode_num, 
+      p.price, 
+      ni.ingredients, 
+      GROUP_CONCAT(DISTINCT a.allergen_name ORDER BY a.allergen_name) AS allergens 
+    FROM 
+    USER_FAVORITES uf
+    JOIN 
+      PRODUCTS p ON uf.product_id = p.product_id
+    INNER JOIN 
+      NUTRITIONAL_INFO ni ON p.product_id = ni.product_id
+    LEFT JOIN 
+      NUTRITIONAL_INFO_NUTRIENT nin ON ni.nutritional_info_id = nin.nutritional_info_id
+    LEFT JOIN 
+      NUTRIENT n ON nin.nutrient_id = n.nutrient_id
+    LEFT JOIN 
+      ALLERGENS a ON ni.allergen_id = a.allergen_id
+    WHERE user_id = 19
+    GROUP BY 
     p.product_id, p.product_name, p.barcode_num, p.price, ni.ingredients, ni.calories;
  
